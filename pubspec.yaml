@@ -1,6 +1,6 @@
 name: development_skeleton
 description: "A skeleton frame for Flutter rapid development"
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/summersrest/development_skeleton
 
 environment:
