@@ -72,9 +72,24 @@ void _runApp(EnvConfig config) {
       return Obx(
         () => GetMaterialApp(
           title: config.title,
-          locale: config.translationConfig?.locale ?? const Locale('zh', 'CN'),
-          fallbackLocale: config.translationConfig?.fallbackLocale ?? const Locale('zh', 'CN'),
+          // locale: config.translationConfig?.locale,
+          fallbackLocale: config.translationConfig?.fallbackLocale,
           translations: config.translationConfig?.translations,
+          localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
+            print('locales.length：${locales?.length}');
+            print('locales.supportedLocales：${supportedLocales.length}');
+            if (null != locales && locales.isNotEmpty && null != config.translationConfig?.locale) {
+              if (locales.containsMapTo(config.translationConfig?.locale, (e) => e!.languageCode)) {
+                Get.locale = config.translationConfig!.locale!;
+              } else {
+                Get.locale = locales.first;
+              }
+            } else if (locales.isBlank && null != config.translationConfig?.locale) {
+              Get.locale = config.translationConfig!.locale!;
+            } else if (null != locales && locales.isNotEmpty && null == config.translationConfig?.locale) {
+              Get.locale = locales.first;
+            }
+          },
           debugShowCheckedModeBanner: config.debugShowCheckedModeBanner,
           themeMode: config.themeConfig?.themeMode ?? ThemeMode.system,
           theme: AppTheme.of().current.light,

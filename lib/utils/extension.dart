@@ -29,8 +29,6 @@ extension DoubleExtension on double {
   ///# 精确到小数点后X位
   ///
   ///## 说明：精确到小数点后X位
-  ///
-  ///@date：2023/9/29
   String fix(int digits) {
     //为防止四舍五入多保留一位小数
     String fix = toStringAsFixed(digits + 1);
@@ -47,8 +45,6 @@ extension ListNullableExtension on List? {
   ///# 判断List是否为空
   ///
   ///## 说明：判断List是否为空
-  ///
-  ///@date：2023/10/7
   bool get isBlank {
     if (null == this || this!.isEmpty) return true;
     return false;
@@ -57,10 +53,19 @@ extension ListNullableExtension on List? {
   ///# 判断List是否不为空
   ///
   ///## 说明：判断List是否不为空
-  ///
-  ///@date：2023/10/7
   bool get isNotBlank {
     if (null != this && this!.isNotEmpty) return true;
+    return false;
+  }
+
+  ///# List中是否包含[element]
+  ///
+  ///## 说明：
+  bool containsMapTo<T>(T element, Function(T t) fun) {
+    if (isBlank) return false;
+    for (var item in this!) {
+      if (fun(item) == fun(element)) return true;
+    }
     return false;
   }
 

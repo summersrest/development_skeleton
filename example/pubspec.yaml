@@ -21,6 +21,7 @@ dependencies:
   # 进度条/toast
   flutter_easyloading: ^3.0.5
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

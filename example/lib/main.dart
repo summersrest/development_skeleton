@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:development_skeleton/widget/show_snack_bar.dart';
+import 'package:example/config/translations/translation.dart';
 import 'package:flutter/material.dart';
 import 'package:example/config/http/my_http_overrides.dart';
 import 'package:example/config/http/unpack_interceptor.dart';
@@ -36,6 +37,12 @@ void main() {
           initTheme: 'green',
           // 主题（跟随系统）
           themeMode: ThemeMode.system,
+        ),
+        //国际化
+        translationConfig: TranslationConfig(
+          translations: Translation(),
+          //不传入则使用手机默认语言
+          locale: const Locale('zh', 'CN'),
         ),
         // 初始化路由
         initialRoute: Routes.sample,
