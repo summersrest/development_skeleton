@@ -1,0 +1,42 @@
+name: development_skeleton
+description: "A skeleton frame for Flutter rapid development"
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.5.2
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # 进度条/toast
+  flutter_easyloading: ^3.0.5
+  # 键值对存储
+  shared_preferences: ^2.2.3
+  # 网络请求
+  dio: ^5.4.3+1
+  # GetX
+  get: ^4.6.6
+  # 日志打印
+  logger: ^2.3.0
+  # 权限申请
+  permission_handler: ^11.3.1
+  # IO兼容库
+  universal_io: ^2.2.2
+  # 路径获取插件
+  path_provider: ^2.1.3
+  # md5
+  crypto: 3.0.3
+  # 下拉刷新
+  easy_refresh: ^3.4.0
+  # 高精度计算
+  decimal: ^3.0.2
+  # 页面适配
+  flutter_screenutil: ^5.9.3
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
