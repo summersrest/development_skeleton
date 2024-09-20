@@ -8,16 +8,21 @@ import 'app_colors.dart';
 final ThemeData greenThemeLight = ThemeData(
   brightness: Brightness.light,
   useMaterial3: false,
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: Color(0xFF12B886),
-    selectionColor: Color(0xFF12B886),
-    selectionHandleColor: Color(0xFF12B886),
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.green,
+    accentColor: Colors.blue,
+    backgroundColor: const Color(0xFFF4F4F4),
   ),
-  primaryColor: const Color(0xFF12B886),
-  appBarTheme: const AppBarTheme(color: Color(0xFF12B886)),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Color(0xFF4CAF50),
+    selectionColor: Color(0xFF4CAF50),
+    selectionHandleColor: Color(0xFF4CAF50),
+  ),
+  primaryColor: const Color(0xFF4CAF50),
+  appBarTheme: const AppBarTheme(color: Color(0xFF4CAF50)),
   extensions: const <ThemeExtension<dynamic>>[
     AppColors(
-      primary: Color(0xFF12B886),
+      primary: Color(0xFF4CAF50),
       backgroundColor: Color(0xFFF4F4F4),
       accent: Color(0xFFE83A3A),
       textLight: Color(0xFF969696),
@@ -34,16 +39,22 @@ final ThemeData greenThemeLight = ThemeData(
 final ThemeData greenThemeDark = ThemeData(
   brightness: Brightness.dark,
   useMaterial3: false,
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: Color(0xFF12B886),
-    selectionColor: Color(0xFF12B886),
-    selectionHandleColor: Color(0xFF12B886),
+  colorScheme: ColorScheme.fromSwatch(
+    brightness: Brightness.dark,
+    primarySwatch: Colors.green,
+    accentColor: Colors.blue,
+    backgroundColor: const Color(0xFFF4F4F4),
   ),
-  primaryColor: const Color(0xFF12B886),
-  appBarTheme: const AppBarTheme(color: Color(0xFF12B886)),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Color(0xFF4CAF50),
+    selectionColor: Color(0xFF4CAF50),
+    selectionHandleColor: Color(0xFF4CAF50),
+  ),
+  primaryColor: const Color(0xFF4CAF50),
+  appBarTheme: const AppBarTheme(color: Color(0xFF4CAF50)),
   extensions: const <ThemeExtension<dynamic>>[
     AppColors(
-      primary: Color(0xFF5F6E69),
+      primary: Color(0xFF4CAF50),
       backgroundColor: Color(0xFFF4F4F4),
       accent: Color(0xFFE83A3A),
       textLight: Color(0xFF969696),

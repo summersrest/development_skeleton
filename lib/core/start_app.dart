@@ -76,8 +76,6 @@ void _runApp(EnvConfig config) {
           fallbackLocale: config.translationConfig?.fallbackLocale,
           translations: config.translationConfig?.translations,
           localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
-            print('locales.length：${locales?.length}');
-            print('locales.supportedLocales：${supportedLocales.length}');
             if (null != locales && locales.isNotEmpty && null != config.translationConfig?.locale) {
               if (locales.containsMapTo(config.translationConfig?.locale, (e) => e!.languageCode)) {
                 Get.locale = config.translationConfig!.locale!;

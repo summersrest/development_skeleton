@@ -55,8 +55,8 @@ void main() {
           } else {
             showSnackBarError(error.toString());
           }
-          Log.v("error: $error");
-          Log.v("stack: $stack");
+          Log.simpleE("error: $error");
+          Log.simpleE("stack: $stack");
         },
         // 初始化（启动App之前的初始化函数，可在其中做一些初始化操作）
         onInit: () async {

@@ -18,7 +18,17 @@ class SamplePage extends BasePage<SampleController> {
   Widget build(BuildContext context) {
     List<MenuEntity> menus = ctrl.getMenus();
     return Scaffold(
-      appBar: AppBar(title: Text('homepage'.tr)),
+      appBar: AppBar(
+        title: Text('首页'.tr),
+        actions: [
+          IconButton(
+              onPressed: ctrl.showLog,
+              icon: const Icon(
+                Icons.print,
+                color: Colors.white,
+              ))
+        ],
+      ),
       body: ListView.builder(
         itemCount: menus.length,
         itemBuilder: (BuildContext context, int index) {

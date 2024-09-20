@@ -11,6 +11,14 @@ extension StringNullableExtension on String? {
     if (null != this && this!.trim().isNotEmpty) return true;
     return false;
   }
+
+}
+
+///# Double扩展
+///
+///## 说明：Double扩展
+extension DoubleNullableExtension on double? {
+
 }
 
 ///# Double扩展
@@ -37,6 +45,12 @@ extension DoubleExtension on double {
   }
 }
 
+///# Int扩展
+///
+///## 说明：Int扩展
+extension IntNullableExtension on int? {
+
+}
 
 ///# List扩展
 ///
@@ -76,8 +90,12 @@ extension ListNullableExtension on List? {
     if (this == null) return <T>[];
     return this!.map<T>((e) => callback(e)).toList();
   }
+
 }
 
+///# bool扩展
+///
+///## 说明：bool扩展
 extension BoolNullableExtension on bool? {
   bool get isTrue {
     if (null != this && this == true) return true;
@@ -88,8 +106,8 @@ extension BoolNullableExtension on bool? {
     if (null == this || this == false) return true;
     return false;
   }
-}
 
+}
 
 extension ObjectExtension<T> on T {
   R let<R>(R Function(T it) fun) {

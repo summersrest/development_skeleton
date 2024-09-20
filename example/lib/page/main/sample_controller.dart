@@ -28,23 +28,39 @@ class SampleController extends BaseController {
   // ];
 
   @override
-  init() {}
+  init() {
+
+  }
 
   List<MenuEntity> getMenus() => [
         MenuEntity(
-          name: 'networkRequest'.tr,
+          name: '网络请求'.tr,
           iconData: Icons.request_page_outlined,
           onTap: () => Get.toNamed(Routes.network),
         ),
         MenuEntity(
-          name: 'theme'.tr,
+          name: '主题切换'.tr,
           iconData: Icons.phone_iphone_outlined,
           onTap: () => Get.toNamed(Routes.theme),
         ),
         MenuEntity(
-          name: 'translate'.tr,
+          name: '国际化'.tr,
           iconData: Icons.translate,
           onTap: () => Get.toNamed(Routes.translate),
         ),
+        MenuEntity(
+          name: '文件存储'.tr,
+          iconData: Icons.store_outlined,
+          onTap: () => Get.toNamed(Routes.store),
+        ),
       ];
+
+  void showLog() {
+    Log.simpleT('trace');
+    Log.simpleD('debug');
+    Log.simpleI('info');
+    Log.simpleW('warning');
+    Log.simpleE('error');
+    Log.simpleF('fatal');
+  }
 }

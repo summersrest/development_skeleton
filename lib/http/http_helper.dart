@@ -4,7 +4,6 @@ import 'package:development_skeleton/log/log.dart';
 import 'package:development_skeleton/utils/json_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:universal_io/io.dart';
@@ -203,7 +202,7 @@ class CommonDio extends DioMixin implements Dio {
           responseBody: true,
           error: true,
           logPrint: (Object object) {
-            Log.i(object);
+            Log.simpleI(object);
           },
         ));
       }
@@ -215,8 +214,6 @@ class CommonDio extends DioMixin implements Dio {
         createHttpClient: () {
           final client = HttpClient();
           client.findProxy = (uri) {
-            // 将请求代理至 localhost:8888。
-            // 请注意，代理会在你正在运行应用的设备上生效，而不是在宿主平台生效。
             return 'PROXY $proxy';
           };
           return client;

@@ -1,110 +1,218 @@
-import 'dart:async';
-import 'dart:developer' as developer;
-import 'package:development_skeleton/utils/utils.dart';
 import 'package:logger/logger.dart';
 
-typedef OnCollectCallback = FutureOr<void> Function(LogLevel level, List<String> lines);
-
-enum LogLevel {
-  trace,
-  debug,
-  info,
-  warning,
-  error,
-}
-
 abstract class Log {
+  /// 详细日志（包含时间、打印位置、内容）
+  static Logger? _detailLogger;
 
-  /// assert(() {
-  ///   // ...debug-only code here...
-  ///   return true;
-  /// }());
+  /// 简单日志（包含时间、内容）
+  static Logger? _simpleLogger;
 
-  static bool enableConsole = isDebug;
-  static OnCollectCallback? onCollect;
+  /// 日志颜色
+  static final Map<Level, AnsiColor> colorOfLevel = {
+    Level.trace: AnsiColor.fg(AnsiColor.grey(0.5)),
+    Level.debug: const AnsiColor.none(),
+    Level.info: const AnsiColor.fg(12),
+    Level.warning: const AnsiColor.fg(208),
+    Level.error: const AnsiColor.fg(196),
+    Level.fatal: const AnsiColor.fg(199),
+  };
 
-  static Level _level = Level.trace;
+  Log._();
 
-  static set logLevel(LogLevel level) {
-    _level = enumFromString<Level>(Level.values, enumToString(level));
+  static Logger get _loggerDetail {
+    _detailLogger ??= Logger(
+      printer: PrettyPrinter(
+        printEmojis: false,
+        dateTimeFormat: DateTimeFormat.dateAndTime,
+        stackTraceBeginIndex: 1,
+        methodCount: 2,
+      ),
+      // printer: _Printer(),
+      output: MultiOutput([ConsoleOutput()]),
+    );
+    return _detailLogger!;
   }
 
-  static Logger? _loggerInstance;
-
-  static Logger get _logger {
-    if (null == _loggerInstance) {
-      var outputs = <LogOutput>[];
-      if (enableConsole) {
-        outputs.add(ConsoleOutput());
-      }
-
-      if (onCollect != null) {
-        outputs.add(CollectorOutput(onCollect!));
-      }
-
-      _loggerInstance = Logger(
-        level: _level,
-        filter: ProductionFilter(),
-        printer: _Printer(),
-        output: MultiOutput(outputs),
-      );
-    }
-
-    return _loggerInstance!;
+  static Logger get _loggerSimple {
+    _simpleLogger ??= Logger(
+      printer: _Printer(colorOfLevel),
+      // printer: _Printer(),
+      output: MultiOutput([ConsoleOutput()]),
+    );
+    return _simpleLogger!;
   }
 
-  /// Log a message at level [Level.trace].
-  static void v(dynamic message, [StackTrace? stackTrace]) {
-    _logger.t(message, stackTrace: stackTrace);
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.trace]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:35:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:55:12.642
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ trace
+  ///└───────────────────────────────────────────────────────────────────────────────────
+  static void t(dynamic message, [StackTrace? stackTrace]) {
+    _loggerDetail.t(message, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.debug].
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.trace]。包含时间、内容
+  ///
+  ///[3:58:12]：trace
+  static void simpleT(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.t(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.debug]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:36:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:58:47.763
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ debug
+  ///└───────────────────────────────────────────────────────────────────────────────────
   static void d(dynamic message, [StackTrace? stackTrace]) {
-    _logger.d(message, stackTrace: stackTrace);
+    _loggerDetail.d(message, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.info].
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.debug]。包含时间、内容
+  ///
+  ///[3:58:12]：debug
+  static void simpleD(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.d(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.info]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:37:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:58:47.764
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ info
+  ///└───────────────────────────────────────────────────────────────────────────────────
   static void i(dynamic message, [StackTrace? stackTrace]) {
-    _logger.i(message, stackTrace: stackTrace);
+    _loggerDetail.i(message, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.warning].
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.info]。包含时间、内容
+  ///
+  ///[3:58:12]：info
+  static void simpleI(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.i(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.warning]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:38:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:58:47.770
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ warning
+  ///└───────────────────────────────────────────────────────────────────────────────────
   static void w(dynamic message, [StackTrace? stackTrace]) {
-    _logger.w(message, stackTrace: stackTrace);
+    _loggerDetail.w(message, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.error].
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.warning]。包含时间、内容
+  ///
+  ///[3:58:12]：warning
+  static void simpleW(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.w(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.error]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:39:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:58:47.773
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ error
+  ///└───────────────────────────────────────────────────────────────────────────────────
   static void e(dynamic message, [StackTrace? stackTrace]) {
-    _logger.e(message, stackTrace: stackTrace);
+    _loggerDetail.e(message, stackTrace: stackTrace);
   }
 
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.error]。包含时间、内容
+  ///
+  ///[3:58:12]：error
+  static void simpleE(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.e(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印详细日志，等级[Level.fatal]。包含时间、打印位置、内容
+  ///
+  ///┌───────────────────────────────────────────────────────────────────────────────────
+  ///│ #1   SampleController.init (package:example/page/main/sample_controller.dart:40:9)
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ 2024-09-20 03:58:47.775
+  ///├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  ///│ fatal
+  ///└───────────────────────────────────────────────────────────────────────────────────
+  static void f(dynamic message, [StackTrace? stackTrace]) {
+    _loggerDetail.f(message, stackTrace: stackTrace);
+  }
+
+  ///# 打印日志
+  ///
+  ///## 说明：打印简略日志，等级[Level.fatal]。包含时间、内容
+  ///
+  ///[3:58:12]：fatal
+  static void simpleF(dynamic message, [StackTrace? stackTrace]) {
+    _loggerSimple.f(message, stackTrace: stackTrace);
+  }
 }
 
-Map<Level, String> _levelNames = {
-  Level.trace: 'trace',
-  Level.debug: 'Debug',
-  Level.info: 'Info',
-  Level.warning: 'Warning',
-  Level.error: 'Error',
-};
-
+///# 日志打印
+///
+///## 说明：自定义简单日志打印内容
+///
+///@date：2024/9/19
 class _Printer extends PrettyPrinter {
-  // ignore: use_super_parameters
-  _Printer({
-    stackTraceBeginIndex = 0,
-    errorMethodCount = 30,
-  }) : super(
-    stackTraceBeginIndex: stackTraceBeginIndex,
-    errorMethodCount: errorMethodCount,
-  );
+  Map<Level, AnsiColor> colorOfLevel;
+
+  _Printer(this.colorOfLevel);
 
   @override
   List<String> log(LogEvent event) {
     var messageStr = stringifyMessage(event.message);
-
     String? stackTraceStr;
-    if (event.stackTrace != null && errorMethodCount! > 0) {
-      stackTraceStr = formatStackTrace(event.stackTrace, errorMethodCount);
+    if (event.error != null) {
+      if ((errorMethodCount == null || errorMethodCount! > 0)) {
+        stackTraceStr = formatStackTrace(
+          event.stackTrace ?? StackTrace.current,
+          errorMethodCount,
+        );
+      }
+    } else if (methodCount == null || methodCount! > 0) {
+      stackTraceStr = formatStackTrace(
+        event.stackTrace ?? StackTrace.current,
+        methodCount,
+      );
     }
 
     var errorStr = event.error?.toString();
@@ -114,87 +222,27 @@ class _Printer extends PrettyPrinter {
       messageStr,
       errorStr,
       stackTraceStr,
+      colorOfLevel,
     );
   }
 
   List<String> _formatAndPrint(
-      Level level,
-      String message,
-      String? error,
-      String? stacktrace,
-      ) {
+    Level level,
+    String message,
+    String? error,
+    String? stacktrace,
+    Map<Level, AnsiColor> colorOfLevel,
+  ) {
     List<String> buffer = [];
+    AnsiColor color = colorOfLevel[level] ?? const AnsiColor.none();
 
     DateTime date = DateTime.now();
     String time = '${date.hour}:${date.minute}:${date.second}';
-
-    String prefix = '[${_levelNames[level]!}] [$time]';
-
-    // format message
-    for (var line in message.split('\n')) {
-      buffer.add('$prefix $line');
+    List<String> messages = message.split('\n');
+    for (var i = 0; i < messages.length; ++i) {
+      var line = i == 0 ? '[$time]：${messages[i]}' : messages[i];
+      buffer.add(color(line));
     }
-
-    if (error != null) {
-      for (var line in error.split('\n')) {
-        buffer.add('$prefix $line');
-      }
-    }
-
-    if (stacktrace != null) {
-      for (var line in stacktrace.split('\n')) {
-        buffer.add('$prefix $line');
-      }
-    }
-
     return buffer;
   }
-}
-
-class ConsoleOutput extends LogOutput {
-  @override
-  void output(OutputEvent event) {
-    for (var element in event.lines) {
-      developer.log(element.replaceAll(RegExp(r'^\[\w+\]\s+'), ''), name: _levelNames[event.level]!);
-    }
-  }
-}
-
-class CollectorOutput extends LogOutput {
-  final OnCollectCallback onCollect;
-
-  CollectorOutput(this.onCollect);
-
-  @override
-  void output(OutputEvent event) {
-    onCollect(
-      enumFromString<LogLevel>(LogLevel.values, enumToString(event.level)),
-      event.lines,
-    );
-  }
-}
-
-
-
-/// Enum to string
-///
-/// ```
-/// enum MyEnum {A, B, C}
-/// String e = enumToString(MyEnum.B);
-/// print(e); // is B
-/// ```
-String enumToString(obj) => obj.toString().split('.').last;
-
-/// Enum from string
-///
-/// ```
-/// enum MyEnum {A, B, C}
-/// MyEnum e = enumFromString<MyEnum>(MyEnum.values, 'B');
-/// print(e); // is MyEnum.B
-/// ```
-T enumFromString<T>(Iterable<T> values, String value) {
-  return values.firstWhere((type) => type.toString().split('.').last == value,
-      orElse: () {
-        throw 'Undefined enumeration type!';
-      });
 }

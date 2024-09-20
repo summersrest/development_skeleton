@@ -1,7 +1,7 @@
 import 'package:example/page/main/sample_page.dart';
 import 'package:example/page/network/network_page.dart';
+import 'package:example/page/store/store_sample_page.dart';
 import 'package:example/page/theme/theme_page.dart';
-import 'package:example/page/translate/translate_page.dart';
 import 'package:get/get.dart';
 
 abstract class Routes {
@@ -17,10 +17,13 @@ abstract class Routes {
   ///国际化
   static const String translate = '/translate';
 
+  ///文件管理
+  static const String store = '/store';
+
   static List<GetPage> routes = [
     GetPage(name: sample, page: () => SamplePage()),
     GetPage(name: network, page: () => NetworkPage()),
     GetPage(name: theme, page: () => ThemePage()),
-    GetPage(name: translate, page: () => TranslatePage()),
+    GetPage(name: store, page: () => StoreSamplePage()),
   ];
 }
