@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:development_skeleton/core/env_config.dart';
+import 'package:development_skeleton/development_skeleton.dart';
 import 'package:development_skeleton/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +52,16 @@ Future _init(EnvConfig config) async {
   AppTheme.init(
     initTheme: config.themeConfig?.initTheme,
     themeItems: config.themeConfig?.themeItems,
+  );
+  //日志初始化
+  Log.enable = config.logConfig?.enableLog ?? isDebug;
+  Log.setColors(
+    trace: config.logConfig?.trace,
+    debug: config.logConfig?.debug,
+    info: config.logConfig?.info,
+    warning: config.logConfig?.warning,
+    error: config.logConfig?.error,
+    fatal: config.logConfig?.fatal,
   );
   //初始
   if (null != config.onInit) {

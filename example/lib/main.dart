@@ -29,7 +29,7 @@ void main() {
         // 日志打印配置
         logConfig: LogConfig(
           //是否打印日志（不传默认debug打印，Release不打印）
-          enableLog: !isDebug,
+          enableLog: isDebug,
           //[Level.trace] 颜色
           trace: 244,
           //[Level.debug] 颜色

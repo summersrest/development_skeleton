@@ -80,7 +80,7 @@ abstract class Log {
   ///# 日志是否允许打印
   ///
   ///## 说明：日志是否允许打印
-  static void setEnableLog(bool enable) {
+  static set enable(bool enable) {
     _enableLog = enable;
   }
 
