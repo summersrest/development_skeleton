@@ -26,6 +26,24 @@ void main() {
                 UnpackInterceptor(),
               ])
         ],
+        // 日志打印配置
+        logConfig: LogConfig(
+          //是否打印日志（不传默认debug打印，Release不打印）
+          enableLog: !isDebug,
+          //[Level.trace] 颜色
+          trace: 244,
+          //[Level.debug] 颜色
+          debug: 30,
+          //[Level.info] 颜色
+          info: 4,
+          //[Level.warning] 颜色
+          warning: 100,
+          //[Level.error] 颜色
+          error: 1,
+          //[Level.fatal] 颜色
+          fatal: 213,
+        ),
+
         // 主题
         themeConfig: ThemeConfig(
           // 主题

@@ -95,7 +95,7 @@ void _runApp(EnvConfig config) {
           initialRoute: config.initialRoute,
           getPages: config.getPages,
           defaultTransition: config.defaultTransition,
-          enableLog: config.enableLog,
+          enableLog: config.logConfig?.enableLog,
           builder: (context, child) {
             child = easyLoading(context, child);
             return MediaQuery(

@@ -56,11 +56,14 @@ class SampleController extends BaseController {
       ];
 
   void showLog() {
+    Log.printAllColor();
     Log.simpleT('trace');
     Log.simpleD('debug');
     Log.simpleI('info');
     Log.simpleW('warning');
     Log.simpleE('error');
     Log.simpleF('fatal');
+
+
   }
 }

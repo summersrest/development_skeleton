@@ -16,7 +16,7 @@ class EnvConfig {
   final List<HttpConfig> httpConfigs;
 
   /// 是否显示Log（若不做设置，则默认debug显示，release不显示）
-  final bool? enableLog;
+  final LogConfig? logConfig;
 
   /// 设计图尺寸
   final Size designSize;
@@ -53,8 +53,8 @@ class EnvConfig {
     /// debug时是否显示横条
     this.debugShowCheckedModeBanner = false,
 
-    /// 是否显示Log（若不做设置，则默认debug显示，release不显示）
-    this.enableLog,
+    /// 日志配置
+    this.logConfig,
 
     /// 异常回调
     required this.onExceptionCallback,
@@ -198,5 +198,41 @@ class TranslationConfig {
 
     /// 添加一个回调语言选项，以备上面指定的语言翻译不存在
     this.fallbackLocale,
+  });
+}
+
+///# 日志打印配置
+///
+///## 说明：日志打印配置
+class LogConfig {
+  /// 是否显示Log（若不做设置，则默认debug显示，release不显示）
+  final bool? enableLog;
+
+  /// 设置日志颜色（等级：[Level.trace]）
+  final int? trace;
+
+  /// 设置日志颜色（等级：[Level.debug]）
+  final int? debug;
+
+  /// 设置日志颜色（等级：[Level.info]）
+  final int? info;
+
+  /// 设置日志颜色（等级：[Level.warning]）
+  final int? warning;
+
+  /// 设置日志颜色（等级：[Level.error]）
+  final int? error;
+
+  /// 设置日志颜色（等级：[Level.fatal]）
+  final int? fatal;
+
+  LogConfig({
+    this.enableLog,
+    this.trace,
+    this.debug,
+    this.info,
+    this.warning,
+    this.error,
+    this.fatal,
   });
 }
