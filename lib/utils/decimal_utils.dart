@@ -13,6 +13,17 @@ abstract class DecimalUtils {
     return (decimal1 + decimal2).toString();
   }
 
+  ///# 加法
+  ///
+  ///## 说明：数组中的数字进行连加
+  static String addBatch(List list) {
+    String result = '0';
+    for (var e in list) {
+      result = add(result, e);
+    }
+    return result;
+  }
+
   ///# 减法
   ///
   ///## 说明：减法

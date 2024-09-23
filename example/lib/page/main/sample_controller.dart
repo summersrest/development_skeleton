@@ -55,14 +55,8 @@ class SampleController extends BaseController {
         ),
       ];
 
-  void showLog() {
-    Log.simpleT('trace');
-    Log.simpleD('debug');
-    Log.simpleI('info');
-    Log.simpleW('warning');
-    Log.simpleE('error');
-    Log.simpleF('fatal');
-
-
+  void showLog() async {
+    String result = DecimalUtils.addBatch([8.0, 1, 4.5, '3', '哈哈']);
+    Log.i(result);
   }
 }

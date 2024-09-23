@@ -33,7 +33,7 @@ dependencies:
   decimal: ^3.0.2
   # 页面适配
   flutter_screenutil: ^5.9.3
-  ansicolor: ^2.0.3
+
 
 
 dev_dependencies:

@@ -20,6 +20,8 @@ dependencies:
   dio: ^5.4.3+1
   # 进度条/toast
   flutter_easyloading: ^3.0.5
+  # 权限申请
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
