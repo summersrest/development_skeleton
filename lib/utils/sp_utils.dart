@@ -59,4 +59,11 @@ abstract class SpUtils {
     return json.decode(cache) as Map<String, dynamic>;
   }
 
+  static remove(String key) {
+    (_sp ?? Get.find<SharedPreferences>()).remove(key);
+  }
+
+  static clear() {
+    (_sp ?? Get.find<SharedPreferences>()).clear();
+  }
 }
