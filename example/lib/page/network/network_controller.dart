@@ -15,7 +15,8 @@ class NetworkController extends BaseController {
 
   @override
   init() async {
-    await requestEntity();
+    // await requestEntity();
+    await Future.delayed(const Duration(hours: 100));
     showContent();
   }
 

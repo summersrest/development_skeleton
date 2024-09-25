@@ -1,8 +1,12 @@
 import 'package:development_skeleton/base/base_controller.dart';
+import 'package:development_skeleton/widget/shimmer/shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+///# 多状态View
+///
+///## 说明：多状态View
 class MultiStateView<T extends BaseController> extends StatelessWidget {
   final T controller;
   final Widget Function() contentBuilder;
@@ -43,12 +47,60 @@ class MultiStateView<T extends BaseController> extends StatelessWidget {
 }
 
 class LoadingView extends StatelessWidget {
+  final double _ratio = 1 / 6;
+  final double _padding = 20;
+
   const LoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CupertinoActivityIndicator(radius: 15),
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: (height / (width * _ratio + _padding)).toInt(),
+      itemBuilder: (BuildContext context, int index) {
+        return Shimmer.fromColors(
+          period: const Duration(milliseconds: 1000),
+          baseColor: const Color(0xFFE0E0E0),
+          highlightColor: const Color(0xFFFAFAFA),
+          enabled: true,
+          child: Padding(
+            padding: EdgeInsets.all(_padding),
+            child: Row(
+              children: [
+                Container(
+                  width: width * _ratio,
+                  height: width * _ratio,
+                  color: const Color(0xFFE0E0E0),
+                ),
+                SizedBox(width: width / 20),
+                Expanded(
+                  child: SizedBox(
+                    height: width * _ratio,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: width / 3,
+                          height: width * _ratio / 4,
+                          color: const Color(0xFFE0E0E0),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: width * _ratio / 4,
+                          color: const Color(0xFFE0E0E0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
