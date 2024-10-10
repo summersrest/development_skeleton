@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_io/io.dart';
-import '../http/http_helper.dart';
 
 ///# 启动App
 ///
@@ -19,8 +18,17 @@ Future startApp(EnvConfig config) async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     FlutterError.onError = (FlutterErrorDetails details) {
+      //图片显示异常不提示
+      if (details.library == 'image resource service') {
+        if (details.exception is FlutterError &&
+            (details.exception as FlutterError).diagnostics.isNotEmpty &&
+            (details.exception as FlutterError).diagnostics.first.value is List) {
+          Log.simpleE(((details.exception as FlutterError).diagnostics.first.value as List).first);
+        }
+        return;
+      }
       //将Flutter框架异常重新抛出，交给 Zone 处理
-      Zone.current.handleUncaughtError(details.exception, details.stack!);
+      Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.empty);
     };
     //初始化
     await _init(config);

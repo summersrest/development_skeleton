@@ -65,11 +65,13 @@ class AppTheme {
   ///# 设置主题
   ///
   ///## 说明：通过主题名称，设置主题
-  void changeThemeByName(String name) {
+  void changeThemeByName(String name) async {
     _currentTheme.value = _themeItems.firstWhere(
       (item) => item.name == name,
       orElse: () => throw Exception('未寻找到相应主题'),
     );
+    await Future.delayed(const Duration(milliseconds: 300));
+    Get.forceAppUpdate();
   }
 
   ///# 修改主题模式
@@ -78,9 +80,14 @@ class AppTheme {
   ///         [themeMode] ThemeMode.system：跟随系统
   ///                     ThemeMode.light： 亮色
   ///                     ThemeMode.dark.： 暗色
-  void changeThemeModel(ThemeMode themeMode) {
+  void changeThemeMode(ThemeMode themeMode) {
     Get.changeThemeMode(themeMode);
   }
+
+  ///# 是否深色主题
+  ///
+  ///## 说明：
+  bool get isDarkMode => Get.isDarkMode;
 
   ///# 主题列表
   ///

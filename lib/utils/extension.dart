@@ -31,7 +31,7 @@ extension DoubleExtension on double {
   ///## 说明：删除double末尾无用的0，并转为String
   String get deleteUselessZeros {
     RegExp regex = RegExp(r"([.]*0)(?!.*\d)");
-    return toString().replaceAll(regex, "") ?? '0';
+    return toString().replaceAll(regex, "");
   }
 
   ///# 精确到小数点后X位
@@ -102,7 +102,7 @@ extension BoolNullableExtension on bool? {
     return false;
   }
 
-  bool get isFalse {
+  bool get isNotTrue {
     if (null == this || this == false) return true;
     return false;
   }

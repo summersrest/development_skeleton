@@ -35,6 +35,6 @@ class ThemeController extends BaseController {
     this.mode = mode;
     update();
     //主题模式切换
-    AppTheme.of().changeThemeModel(mode);
+    AppTheme.of().changeThemeMode(mode);
   }
 }
