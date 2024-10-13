@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:development_skeleton/core/env_config.dart';
 import 'package:development_skeleton/development_skeleton.dart';
-import 'package:development_skeleton/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -88,50 +86,47 @@ void _runApp(EnvConfig config) {
     //设计图尺寸
     designSize: config.designSize,
     builder: (BuildContext context, Widget? child) {
-      return Obx(
-        () => GetMaterialApp(
-          title: config.title,
-          // locale: config.translationConfig?.locale,
-          fallbackLocale: config.translationConfig?.fallbackLocale,
-          translations: config.translationConfig?.translations,
-          localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
-            if (null != locales && locales.isNotEmpty && null != config.translationConfig?.locale) {
-              if (locales.containsMapTo(config.translationConfig?.locale, (e) => e!.languageCode)) {
-                Get.locale = config.translationConfig!.locale!;
-              } else {
-                Get.locale = locales.first;
-              }
-            } else if (locales.isBlank && null != config.translationConfig?.locale) {
+      return GetMaterialApp(
+        title: config.title,
+        fallbackLocale: config.translationConfig?.fallbackLocale,
+        translations: config.translationConfig?.translations,
+        localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
+          if (null != locales && locales.isNotEmpty && null != config.translationConfig?.locale) {
+            if (locales.containsMapTo(config.translationConfig?.locale, (e) => e!.languageCode)) {
               Get.locale = config.translationConfig!.locale!;
-            } else if (null != locales && locales.isNotEmpty && null == config.translationConfig?.locale) {
+            } else {
               Get.locale = locales.first;
             }
-          },
-          debugShowCheckedModeBanner: config.debugShowCheckedModeBanner,
-          themeMode: config.themeConfig?.themeMode ?? ThemeMode.system,
-          theme: AppTheme.of().current.light,
-          darkTheme: AppTheme.of().current.dark,
-          initialRoute: config.initialRoute,
-          getPages: config.getPages,
-          defaultTransition: config.defaultTransition,
-          enableLog: config.logConfig?.enableLog,
-          builder: (context, child) {
-            child = easyLoading(context, child);
-            return MediaQuery(
-              //设置文字大小不随系统设置改变
-              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-              child: GestureDetector(
-                child: child,
-                onTap: () {
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  }
-                },
-              ),
-            );
-          },
-        ),
+          } else if (locales.isBlank && null != config.translationConfig?.locale) {
+            Get.locale = config.translationConfig!.locale!;
+          } else if (null != locales && locales.isNotEmpty && null == config.translationConfig?.locale) {
+            Get.locale = locales.first;
+          }
+        },
+        debugShowCheckedModeBanner: config.debugShowCheckedModeBanner,
+        themeMode: config.themeConfig?.themeMode ?? ThemeMode.system,
+        theme: AppTheme.of().current.light,
+        darkTheme: AppTheme.of().current.dark,
+        initialRoute: config.initialRoute,
+        getPages: config.getPages,
+        defaultTransition: config.defaultTransition,
+        enableLog: config.logConfig?.enableLog,
+        builder: (context, child) {
+          child = easyLoading(context, child);
+          return MediaQuery(
+            //设置文字大小不随系统设置改变
+            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+            child: GestureDetector(
+              child: child,
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
+            ),
+          );
+        },
       );
     },
   ));

@@ -21,7 +21,7 @@ class AppTheme {
   ];
 
   /// 当前主题
-  late Rx<ThemeItem> _currentTheme;
+  late ThemeItem _currentTheme;
 
   AppTheme._({
     String? initTheme,
@@ -36,8 +36,7 @@ class AppTheme {
         .firstWhere(
           (item) => item.name == initTheme,
           orElse: () => _themeItems[0],
-        )
-        .obs;
+        );
   }
 
   ///# 构造器
@@ -60,13 +59,13 @@ class AppTheme {
   ///## 说明：获取当前主题
   ///
   ///@date：2024/9/9
-  ThemeItem get current => _currentTheme.value;
+  ThemeItem get current => _currentTheme;
 
   ///# 设置主题
   ///
   ///## 说明：通过主题名称，设置主题
   void changeThemeByName(String name) async {
-    _currentTheme.value = _themeItems.firstWhere(
+    _currentTheme = _themeItems.firstWhere(
       (item) => item.name == name,
       orElse: () => throw Exception('未寻找到相应主题'),
     );
