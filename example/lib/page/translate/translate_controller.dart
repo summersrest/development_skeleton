@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:development_skeleton/development_skeleton.dart';
-import 'package:get/get.dart';
 
 ///# 国际化
 ///
@@ -14,10 +12,10 @@ class TranslateController extends BaseController {
   }
 
   void changeLocale() {
-    if (Get.locale == const Locale('zh', 'CN')) {
-      Get.updateLocale(const Locale('en', 'US'));
+    if (Translator.of().locale?.languageCode == 'zh') {
+      Translator.of().updateLocale(const Locale('en', 'US'));
     } else {
-      Get.updateLocale(const Locale('zh', 'CN'));
+      Translator.of().updateLocale(const Locale('zh', 'CN'));
     }
   }
 }

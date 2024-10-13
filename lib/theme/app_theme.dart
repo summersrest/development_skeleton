@@ -57,8 +57,6 @@ class AppTheme {
   ///# 获取当前主题
   ///
   ///## 说明：获取当前主题
-  ///
-  ///@date：2024/9/9
   ThemeItem get current => _currentTheme;
 
   ///# 设置主题
@@ -70,7 +68,7 @@ class AppTheme {
       orElse: () => throw Exception('未寻找到相应主题'),
     );
     await Future.delayed(const Duration(milliseconds: 300));
-    Get.forceAppUpdate();
+    await Get.forceAppUpdate();
   }
 
   ///# 修改主题模式

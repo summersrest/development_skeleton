@@ -1,15 +1,14 @@
 import 'dart:io';
-
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:development_skeleton/widget/show_snack_bar.dart';
-import 'package:example/config/translations/translation.dart';
 import 'package:flutter/material.dart';
 import 'package:example/config/http/my_http_overrides.dart';
 import 'package:example/config/http/unpack_interceptor.dart';
 import 'package:example/config/routes.dart';
 import 'package:example/config/theme/theme_dark.dart';
-
 import 'config/theme/theme_green.dart';
+import 'config/translations/cn.dart';
+import 'config/translations/en.dart';
 
 void main() {
   startApp(
@@ -58,7 +57,9 @@ void main() {
         ),
         //国际化
         translationConfig: TranslationConfig(
-          translations: Translation(),
+          translations: [
+            cn, en,
+          ],
           //不传入则使用手机默认语言
           locale: const Locale('zh', 'CN'),
         ),

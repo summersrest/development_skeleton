@@ -2,6 +2,7 @@ library development_skeleton;
 
 export 'core/env_config.dart';
 export 'core/start_app.dart';
+export 'core/internationalization.dart';
 export 'dialog/dialog_utils.dart';
 export 'http/http_canceler.dart';
 export 'http/http_helper.dart';

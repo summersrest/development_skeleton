@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_io/io.dart';
 
+import 'internationalization.dart';
+
 ///# 启动App
 ///
 ///## 说明：启动App
@@ -59,6 +61,9 @@ Future _init(EnvConfig config) async {
     initTheme: config.themeConfig?.initTheme,
     themeItems: config.themeConfig?.themeItems,
   );
+  // 国际化
+  Translator translator =  Translator.init();
+  translator.addTranslations(config.translationConfig?.translations);
   //日志初始化
   Log.enable = config.logConfig?.enableLog ?? isDebug;
   Log.setColors(
@@ -88,19 +93,20 @@ void _runApp(EnvConfig config) {
     builder: (BuildContext context, Widget? child) {
       return GetMaterialApp(
         title: config.title,
-        fallbackLocale: config.translationConfig?.fallbackLocale,
-        translations: config.translationConfig?.translations,
         localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
-          if (null != locales && locales.isNotEmpty && null != config.translationConfig?.locale) {
-            if (locales.containsMapTo(config.translationConfig?.locale, (e) => e!.languageCode)) {
-              Get.locale = config.translationConfig!.locale!;
+          Locale? locale = config.translationConfig?.locale;
+          if (null != locales && locales.isNotEmpty && null != locale) {
+            if (locales.containsMatchOn(locale, (e) {
+              return locale.languageCode == e.languageCode && locale.countryCode == e.countryCode;
+            })) {
+              Translator.of().locale = locale;
             } else {
-              Get.locale = locales.first;
+              Translator.of().locale = locales.first;
             }
-          } else if (locales.isBlank && null != config.translationConfig?.locale) {
-            Get.locale = config.translationConfig!.locale!;
-          } else if (null != locales && locales.isNotEmpty && null == config.translationConfig?.locale) {
-            Get.locale = locales.first;
+          } else if (locales.isBlank && null != locale) {
+            Translator.of().locale = locale;
+          } else if (null != locales && locales.isNotEmpty && null == locale) {
+            Translator.of().locale = locales.first;
           }
         },
         debugShowCheckedModeBanner: config.debugShowCheckedModeBanner,

@@ -75,10 +75,10 @@ extension ListNullableExtension on List? {
   ///# List中是否包含[element]
   ///
   ///## 说明：
-  bool containsMapTo<T>(T element, Function(T t) fun) {
+  bool containsMatchOn<T>(T element, bool Function(T e) fun) {
     if (isBlank) return false;
     for (var item in this!) {
-      if (fun(item) == fun(element)) return true;
+      return fun(item);
     }
     return false;
   }

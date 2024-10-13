@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:example/config/routes.dart';
 import 'package:example/entity/menu_entity.dart';
 import 'package:get/get.dart';
+import 'package:example/config/translations/app_translation.dart';
 
 ///# Demo首页
 ///
@@ -34,22 +35,22 @@ class SampleController extends BaseController {
 
   List<MenuEntity> getMenus() => [
         MenuEntity(
-          name: '网络请求'.tr,
+          name: AppTranslation.of().netWork,
           iconData: Icons.request_page_outlined,
           onTap: () => Get.toNamed(Routes.network),
         ),
         MenuEntity(
-          name: '主题切换'.tr,
+          name: AppTranslation.of().themeChange,
           iconData: Icons.phone_iphone_outlined,
           onTap: () => Get.toNamed(Routes.theme),
         ),
         MenuEntity(
-          name: '国际化'.tr,
+          name: AppTranslation.of().international,
           iconData: Icons.translate,
           onTap: () => Get.toNamed(Routes.translate),
         ),
         MenuEntity(
-          name: '文件存储'.tr,
+          name: AppTranslation.of().fileStore,
           iconData: Icons.store_outlined,
           onTap: () => Get.toNamed(Routes.store),
         ),

@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'internationalization.dart';
+
 ///# App运行配置项
 ///
 ///## 说明：App运行配置项
@@ -181,23 +183,19 @@ class ThemeItem {
 ///## 说明：国际化配置
 class TranslationConfig {
   /// 国际化文件
-  final Translations? translations;
+  final List<Translation> translations;
 
   /// 指定翻译语言
   final Locale? locale;
 
-  /// 添加一个回调语言选项，以备上面指定的语言翻译不存在
-  final Locale? fallbackLocale;
 
   TranslationConfig({
     /// 国际化文件
-    this.translations,
+    required this.translations,
 
     /// 指定翻译语言
     this.locale,
 
-    /// 添加一个回调语言选项，以备上面指定的语言翻译不存在
-    this.fallbackLocale,
   });
 }
 
