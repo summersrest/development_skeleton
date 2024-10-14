@@ -12,6 +12,13 @@ extension StringNullableExtension on String? {
     return false;
   }
 
+  String ifBlank(String Function() func) {
+    if (isNotBlank) {
+      return this!;
+    } else {
+      return func();
+    }
+  }
 }
 
 ///# Double扩展

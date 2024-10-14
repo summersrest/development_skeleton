@@ -2,7 +2,7 @@ import 'package:development_skeleton/development_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:example/config/theme/app_colors.dart';
 import 'package:example/entity/menu_entity.dart';
-import 'package:example/config/translations/app_translation.dart';
+import 'package:get/get.dart';
 import 'sample_controller.dart';
 
 ///# Demo首页
@@ -19,7 +19,7 @@ class SamplePage extends BasePage<SampleController> {
     List<MenuEntity> menus = ctrl.getMenus();
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTranslation.of().homePage),
+        title: Text('homePage'.tr),
         actions: [
           IconButton(
               onPressed: ctrl.showLog,

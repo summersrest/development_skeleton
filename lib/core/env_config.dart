@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'internationalization.dart';
-
 ///# App运行配置项
 ///
 ///## 说明：App运行配置项
@@ -109,6 +107,9 @@ class HttpConfig {
   /// 拦截器
   final List<Interceptor>? interceptors;
 
+  /// 日志打印拦截器
+  final Interceptor? logInterceptor;
+
   HttpConfig({
     /// 名称
     required this.name,
@@ -130,8 +131,12 @@ class HttpConfig {
 
     /// 拦截器
     this.interceptors,
+
+    /// 日志打印拦截器
+    this.logInterceptor,
   });
 }
+
 
 ///# 主题配置
 ///
@@ -183,7 +188,7 @@ class ThemeItem {
 ///## 说明：国际化配置
 class TranslationConfig {
   /// 国际化文件
-  final List<Translation> translations;
+  final Translations translations;
 
   /// 指定翻译语言
   final Locale? locale;
@@ -218,7 +223,7 @@ class LogConfig {
   /// 设置日志颜色（等级：[Level.warning]）
   final int? warning;
 
-  /// 设置日志颜色（等级：[Level.error]）
+  /// 设置日志颜色（等级：[Level.isError]）
   final int? error;
 
   /// 设置日志颜色（等级：[Level.fatal]）

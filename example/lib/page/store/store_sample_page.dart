@@ -1,7 +1,7 @@
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'store_sample_controller.dart';
-import 'package:example/config/translations/app_translation.dart';
 
 ///# 文件处理
 ///
@@ -15,7 +15,7 @@ class StoreSamplePage extends BasePage<StoreSampleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppTranslation.of().fileStore)),
+      appBar: AppBar(title: Text('fileStore'.tr)),
       body: DividerColumn(
         showDividers: const [ShowDivider.beginning, ShowDivider.middle],
         crossAxisAlignment: CrossAxisAlignment.center,

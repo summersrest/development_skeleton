@@ -2,8 +2,8 @@ import 'package:development_skeleton/development_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:example/entity/article_entity.dart';
 import 'package:example/entity/user_info_entity.dart';
+import 'package:get/get.dart';
 import 'network_controller.dart';
-import 'package:example/config/translations/app_translation.dart';
 
 ///# 网络请求
 ///
@@ -18,7 +18,7 @@ class NetworkPage extends BasePage<NetworkController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTranslation.of().netWork),
+        title: Text('netWork'.tr),
         actions: [
           DropdownButton(
             value: ctrl.resultType,

@@ -23,6 +23,9 @@ class HttpHelper {
   /// 拦截器
   final List<Interceptor>? interceptors;
 
+  /// 日志打印拦截器
+  final Interceptor? logInterceptor;
+
   /// 是否显示日志
   final bool isLog;
 
@@ -32,11 +35,12 @@ class HttpHelper {
   HttpHelper({
     required this.options,
     this.interceptors,
+    this.logInterceptor,
     this.isLog = true,
     this.proxy,
   }) {
     options.responseType = ResponseType.plain;
-    _dio ??= CommonDio(options: options, isLog: isLog, proxy: proxy);
+    _dio ??= CommonDio(options: options, isLog: isLog, proxy: proxy, logInterceptor: logInterceptor);
     if (null != interceptors && interceptors!.isNotEmpty) {
       _dio!.interceptors.addAll(interceptors!);
     }
@@ -188,13 +192,13 @@ class CommonDio extends DioMixin implements Dio {
     required BaseOptions options,
     String? proxy,
     required bool isLog,
+    Interceptor? logInterceptor,
   }) : super() {
     this.options = options;
 
     assert(() {
       if (isLog) {
-        // インターセプターにdio印刷ログを追加する。
-        interceptors.add(LogInterceptor(
+        interceptors.add(logInterceptor ?? LogInterceptor(
           request: false,
           requestHeader: false,
           requestBody: true,

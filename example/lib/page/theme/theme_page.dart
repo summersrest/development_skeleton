@@ -1,8 +1,8 @@
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:example/config/theme/app_colors.dart';
+import 'package:get/get.dart';
 import 'theme_controller.dart';
-import 'package:example/config/translations/app_translation.dart';
 
 ///# 主题切换
 ///
@@ -16,7 +16,7 @@ class ThemePage extends BasePage<ThemeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppTranslation.of().themeChange)),
+      appBar: AppBar(title: Text('themeChange'.tr)),
       body: MultiStateView(
         controller: ctrl,
         contentBuilder: () {

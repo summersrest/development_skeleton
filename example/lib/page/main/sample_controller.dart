@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:example/config/routes.dart';
 import 'package:example/entity/menu_entity.dart';
 import 'package:get/get.dart';
-import 'package:example/config/translations/app_translation.dart';
 
 ///# Demo首页
 ///
@@ -35,22 +34,22 @@ class SampleController extends BaseController {
 
   List<MenuEntity> getMenus() => [
         MenuEntity(
-          name: AppTranslation.of().netWork,
+          name: 'netWork'.tr,
           iconData: Icons.request_page_outlined,
           onTap: () => Get.toNamed(Routes.network),
         ),
         MenuEntity(
-          name: AppTranslation.of().themeChange,
+          name: 'themeChange'.tr,
           iconData: Icons.phone_iphone_outlined,
           onTap: () => Get.toNamed(Routes.theme),
         ),
         MenuEntity(
-          name: AppTranslation.of().international,
+          name: 'international'.tr,
           iconData: Icons.translate,
           onTap: () => Get.toNamed(Routes.translate),
         ),
         MenuEntity(
-          name: AppTranslation.of().fileStore,
+          name: 'fileStore'.tr,
           iconData: Icons.store_outlined,
           onTap: () => Get.toNamed(Routes.store),
         ),

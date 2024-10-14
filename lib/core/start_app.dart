@@ -8,8 +8,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_io/io.dart';
 
-import 'internationalization.dart';
-
 ///# 启动App
 ///
 ///## 说明：启动App
@@ -61,9 +59,6 @@ Future _init(EnvConfig config) async {
     initTheme: config.themeConfig?.initTheme,
     themeItems: config.themeConfig?.themeItems,
   );
-  // 国际化
-  Translator translator =  Translator.init();
-  translator.addTranslations(config.translationConfig?.translations);
   //日志初始化
   Log.enable = config.logConfig?.enableLog ?? isDebug;
   Log.setColors(
@@ -99,14 +94,14 @@ void _runApp(EnvConfig config) {
             if (locales.containsMatchOn(locale, (e) {
               return locale.languageCode == e.languageCode && locale.countryCode == e.countryCode;
             })) {
-              Translator.of().locale = locale;
+              Get.locale = locale;
             } else {
-              Translator.of().locale = locales.first;
+              Get.locale = locales.first;
             }
           } else if (locales.isBlank && null != locale) {
-            Translator.of().locale = locale;
+            Get.locale = locale;
           } else if (null != locales && locales.isNotEmpty && null == locale) {
-            Translator.of().locale = locales.first;
+            Get.locale = locales.first;
           }
         },
         debugShowCheckedModeBanner: config.debugShowCheckedModeBanner,

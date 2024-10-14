@@ -9,6 +9,7 @@ import 'package:example/config/theme/theme_dark.dart';
 import 'config/theme/theme_green.dart';
 import 'config/translations/cn.dart';
 import 'config/translations/en.dart';
+import 'config/translations/translation.dart';
 
 void main() {
   startApp(
@@ -57,9 +58,7 @@ void main() {
         ),
         //国际化
         translationConfig: TranslationConfig(
-          translations: [
-            cn, en,
-          ],
+          translations: Translation(),
           //不传入则使用手机默认语言
           locale: const Locale('zh', 'CN'),
         ),
