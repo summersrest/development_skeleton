@@ -1,4 +1,4 @@
-import 'package:development_skeleton/base/base_controller.dart';
+import 'package:development_skeleton/base/su_controller.dart';
 import 'package:development_skeleton/widget/shimmer/shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 ///# 多状态View
 ///
 ///## 说明：多状态View
-class MultiStateView<T extends BaseController> extends StatelessWidget {
+class MultiStateView<T extends SUController> extends StatelessWidget {
   final T controller;
   final Widget Function() contentBuilder;
   final Widget Function()? emptyBuilder;

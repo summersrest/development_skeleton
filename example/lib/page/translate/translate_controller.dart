@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 ///# 国际化
 ///
 ///@date 2024/9/14 
-class TranslateController extends BaseController {
+class TranslateController extends SUController {
 
   @override
   init() {

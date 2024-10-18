@@ -1,4 +1,4 @@
-import 'package:development_skeleton/base/base_controller.dart';
+import 'package:development_skeleton/base/su_controller.dart';
 import 'package:development_skeleton/http/http_helper_exception.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 
@@ -7,7 +7,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 ///## 说明：页面中存在上拉加载，下拉刷新时，使用此控制器。
 ///
 ///@date：2024/9/6
-abstract class RefreshController extends BaseController {
+abstract class RefreshController extends SUController {
   Map<String, dynamic> pageBody = {'pageIndex': 1, 'pageSize': 10};
 
   final EasyRefreshController refreshCtrl = EasyRefreshController(

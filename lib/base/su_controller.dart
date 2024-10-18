@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 ///# Get Controller超类
 ///
 ///## 说明：Get Controller超类
-abstract class BaseController extends GetxController with HttpCanceler {
+abstract class SUController extends GetxController with HttpCanceler {
   ViewState viewState = ViewState.loading;
   StreamSubscription<EventMessage>? _subscription;
 

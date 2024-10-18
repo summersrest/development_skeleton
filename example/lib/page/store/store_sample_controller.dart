@@ -5,7 +5,7 @@ import 'package:development_skeleton/development_skeleton.dart';
 ///# 文件处理
 ///
 ///@date 2024/9/20
-class StoreSampleController extends BaseController {
+class StoreSampleController extends SUController {
   @override
   init() {}
 

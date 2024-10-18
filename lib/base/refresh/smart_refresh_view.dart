@@ -1,4 +1,4 @@
-import 'package:development_skeleton/base/base_controller.dart';
+import 'package:development_skeleton/base/su_controller.dart';
 import 'package:development_skeleton/base/refresh/refresh_controller.dart';
 import 'package:development_skeleton/widget/multi_state_view.dart';
 import 'package:easy_refresh/easy_refresh.dart';

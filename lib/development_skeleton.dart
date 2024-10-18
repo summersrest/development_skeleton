@@ -21,5 +21,5 @@ export 'utils/json_utils.dart';
 export 'utils/request_permission.dart';
 export 'widget/multi_state_view.dart';
 export 'widget/divider_column.dart';
-export 'base/base_controller.dart';
-export 'base/base_page.dart';
+export 'base/su_controller.dart';
+export 'base/su_page.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ///# 主题切换
 ///
 ///@date 2024/9/10
-class ThemeController extends BaseController {
+class ThemeController extends SUController {
   /// 主题列表
   List<ThemeItem> themeList = [];
 

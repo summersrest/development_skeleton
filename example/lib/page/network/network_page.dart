@@ -8,7 +8,7 @@ import 'network_controller.dart';
 ///# 网络请求
 ///
 ///@date 2024/9/10
-class NetworkPage extends BasePage<NetworkController> {
+class NetworkPage extends SUPage<NetworkController> {
   NetworkPage({super.key});
 
   @override

@@ -6,7 +6,7 @@ import 'store_sample_controller.dart';
 ///# 文件处理
 ///
 ///@date 2024/9/20
-class StoreSamplePage extends BasePage<StoreSampleController> {
+class StoreSamplePage extends SUPage<StoreSampleController> {
   StoreSamplePage({super.key});
 
   @override
