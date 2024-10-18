@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:development_skeleton/core/event_bus.dart';
 import 'package:development_skeleton/http/http_canceler.dart';
 import 'package:development_skeleton/http/http_helper_exception.dart';
 import 'package:development_skeleton/widget/show_snack_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 ///# Get Controller超类
@@ -8,13 +12,33 @@ import 'package:get/get.dart';
 ///## 说明：Get Controller超类
 abstract class BaseController extends GetxController with HttpCanceler {
   ViewState viewState = ViewState.loading;
+  StreamSubscription<EventMessage>? _subscription;
+
+  /// 消息接收函数
+  late final ValueChanged<EventMessage>? _receiver = eventReceiver;
 
   @override
   void onReady() async {
     super.onReady();
+    _initEventSubscription();
     //网络请求
     await _requestApi();
   }
+
+  ///# 监听消息
+  _initEventSubscription() async {
+    await _subscription?.cancel();
+    if (null != _receiver) {
+      _subscription = EventBus.instance.listen(_receiver);
+    }
+  }
+
+  ///# 消息接收复写函数
+  ///
+  ///## 说明：
+  ///
+  ///@date：2024/10/18
+  ValueChanged<EventMessage>? get eventReceiver => null;
 
   ///# 网络请求
   ///
@@ -66,6 +90,7 @@ abstract class BaseController extends GetxController with HttpCanceler {
   @override
   void onClose() {
     super.onClose();
+    _subscription?.cancel();
     //取消网络请求
     cancelByTag(runtimeType.toString());
   }

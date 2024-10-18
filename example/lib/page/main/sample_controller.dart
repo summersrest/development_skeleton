@@ -1,3 +1,4 @@
+import 'package:development_skeleton/core/event_bus.dart';
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:example/config/routes.dart';
@@ -28,9 +29,7 @@ class SampleController extends BaseController {
   // ];
 
   @override
-  init() {
-
-  }
+  init() {}
 
   List<MenuEntity> getMenus() => [
         MenuEntity(
@@ -59,4 +58,9 @@ class SampleController extends BaseController {
     String result = DecimalUtils.addBatch([8.0, 1, 4.5, '3', '哈哈']);
     Log.i(result);
   }
+
+  @override
+  ValueChanged<EventMessage>? get eventReceiver => (event) {
+        Log.i(event.eventId);
+      };
 }

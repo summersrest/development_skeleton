@@ -88,11 +88,13 @@ void _runApp(EnvConfig config) {
     builder: (BuildContext context, Widget? child) {
       return GetMaterialApp(
         title: config.title,
+        translations: config.translationConfig?.translations,
         localeListResolutionCallback: (List<Locale>? locales, Iterable<Locale> supportedLocales) {
           Locale? locale = config.translationConfig?.locale;
           if (null != locales && locales.isNotEmpty && null != locale) {
             if (locales.containsMatchOn(locale, (e) {
-              return locale.languageCode == e.languageCode && locale.countryCode == e.countryCode;
+              return locale.languageCode.trim() == e.languageCode.trim() &&
+                  (locale.countryCode ?? '').trim() == (e.countryCode ?? '').trim();
             })) {
               Get.locale = locale;
             } else {

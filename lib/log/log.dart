@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'dart:developer' as developer;
 
 abstract class Log {
   /// 详细日志（包含时间、打印位置、内容）
@@ -7,6 +8,9 @@ abstract class Log {
 
   /// 简单日志（包含时间、内容）
   static Logger? _simpleLogger;
+
+  /// 长文本打印
+  static Logger? _longTextLogger;
 
   /// 是否允许打印日志
   static bool _enableLog = true;
@@ -43,6 +47,14 @@ abstract class Log {
       output: MultiOutput([ConsoleOutput()]),
     );
     return _simpleLogger!;
+  }
+
+  static Logger get _loggerLongText {
+    _longTextLogger ??= Logger(
+      printer: _Printer(),
+      output: MultiOutput([LonTextConsoleOutput()]),
+    );
+    return _longTextLogger!;
   }
 
   ///# 所有颜色预览
@@ -251,17 +263,100 @@ abstract class Log {
       _loggerSimple.f(message, stackTrace: stackTrace);
     }
   }
+
+  ///# 打印长文本日志（不带颜色）
+  ///
+  ///## 说明：[message]打印内容。
+  ///        [level] 日志等级。
+  ///        [tag] 日志Tag，不传入则以Log等级为tag。
+  ///        [stackTrace] 打印的堆栈信息。
+  ///
+  ///@date：2024/10/14
+  static void longText(
+      dynamic message, {
+        String? tag,
+        Level level = Level.info,
+        StackTrace? stackTrace,
+      }) {
+    switch (level) {
+      case Level.trace:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .t(message, stackTrace: stackTrace);
+        break;
+      case Level.debug:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .d(message, stackTrace: stackTrace);
+        break;
+      case Level.info:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .i(message, stackTrace: stackTrace);
+        break;
+      case Level.warning:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .w(message, stackTrace: stackTrace);
+        break;
+      case Level.error:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .e(message, stackTrace: stackTrace);
+        break;
+
+      case Level.fatal:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .f(message, stackTrace: stackTrace);
+        break;
+      default:
+        (null == tag
+            ? _loggerLongText
+            : Logger(
+          printer: _Printer(),
+          output: MultiOutput([LonTextConsoleOutput(tag)]),
+        ))
+            .i(message, stackTrace: stackTrace);
+        break;
+    }
+  }
 }
 
 ///# 日志打印
 ///
-///## 说明：自定义简单日志打印内容
+///## 说明：自定义日志打印内容
+///[colorOfLevel]传入则拼接颜色码字符串，不传入不拼接。
 ///
 ///@date：2024/9/19
 class _Printer extends PrettyPrinter {
-  Map<Level, AnsiColor> colorOfLevel;
+  Map<Level, AnsiColor>? colorOfLevel;
 
-  _Printer(this.colorOfLevel);
+  _Printer([this.colorOfLevel]);
 
   @override
   List<String> log(LogEvent event) {
@@ -293,22 +388,50 @@ class _Printer extends PrettyPrinter {
   }
 
   List<String> _formatAndPrint(
-    Level level,
-    String message,
-    String? error,
-    String? stacktrace,
-    Map<Level, AnsiColor> colorOfLevel,
-  ) {
+      Level level,
+      String message,
+      String? error,
+      String? stacktrace,
+      Map<Level, AnsiColor>? colorOfLevel,
+      ) {
     List<String> buffer = [];
-    AnsiColor color = colorOfLevel[level] ?? const AnsiColor.none();
+    AnsiColor? color;
+    if (null != colorOfLevel) {
+      color = colorOfLevel[level] ?? const AnsiColor.none();
+    }
 
     DateTime date = DateTime.now();
     String time = '${date.hour}:${date.minute}:${date.second}';
     List<String> messages = message.split('\n');
     for (var i = 0; i < messages.length; ++i) {
       var line = i == 0 ? '[$time]：${messages[i]}' : messages[i];
-      buffer.add(color(line));
+      if (null != color) {
+        buffer.add(color(line));
+      } else {
+        buffer.add(line);
+      }
     }
     return buffer;
+  }
+}
+
+///# 长文本打印
+///
+///## 说明：
+///
+///@date：2024/10/14
+class LonTextConsoleOutput extends LogOutput {
+  final String? tag;
+
+  LonTextConsoleOutput([this.tag]);
+
+  @override
+  void output(OutputEvent event) {
+    for (var element in event.lines) {
+      developer.log(
+        element.replaceAll(RegExp(r'^\[\w+\]\s+'), ''),
+        name: tag ?? event.level.toString().split('.')[1],
+      );
+    }
   }
 }

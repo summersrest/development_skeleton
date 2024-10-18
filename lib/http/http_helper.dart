@@ -57,6 +57,7 @@ class HttpHelper {
         receiveTimeout: Duration(milliseconds: httpConfig.receiveTimeout),
       ),
       interceptors: httpConfig.interceptors,
+      logInterceptor: httpConfig.logInterceptor,
       isLog: httpConfig.enableLog,
       proxy: httpConfig.proxy,
     );
@@ -206,7 +207,7 @@ class CommonDio extends DioMixin implements Dio {
           responseBody: true,
           error: true,
           logPrint: (Object object) {
-            Log.simpleI(object);
+            Log.longText(object, tag: 'HttpRequest');
           },
         ));
       }
