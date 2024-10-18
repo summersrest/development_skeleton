@@ -24,4 +24,9 @@ class EventMessage {
   dynamic message;
 
   EventMessage(this.eventId, {this.message});
+
+  Map<String, dynamic> toJson() => {
+        'eventId': eventId,
+        'message': message,
+      };
 }

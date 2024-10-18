@@ -54,13 +54,5 @@ class SampleController extends BaseController {
         ),
       ];
 
-  void showLog() async {
-    String result = DecimalUtils.addBatch([8.0, 1, 4.5, '3', '哈哈']);
-    Log.i(result);
-  }
 
-  @override
-  ValueChanged<EventMessage>? get eventReceiver => (event) {
-        Log.i(event.eventId);
-      };
 }

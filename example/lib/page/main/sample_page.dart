@@ -20,14 +20,6 @@ class SamplePage extends BasePage<SampleController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('homePage'.tr),
-        actions: [
-          IconButton(
-              onPressed: ctrl.showLog,
-              icon: const Icon(
-                Icons.print,
-                color: Colors.white,
-              ))
-        ],
       ),
       body: ListView.builder(
         itemCount: menus.length,
