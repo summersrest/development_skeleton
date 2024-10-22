@@ -1,6 +1,5 @@
 import 'package:development_skeleton/base/su_controller.dart';
 import 'package:development_skeleton/widget/shimmer/shimmer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -116,7 +115,7 @@ class EmptyView extends StatelessWidget {
         children: [
           Icon(Icons.hourglass_empty_outlined),
           SizedBox(width: 10),
-          Text('数据为空'),
+          Text('暂无数据'),
         ],
       ),
     );

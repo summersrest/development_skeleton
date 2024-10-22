@@ -6,7 +6,7 @@ class UnpackInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     if (JsonUtils.isMap(response.data)) {
       //返回数据解析
-      Map<String, dynamic> map = JsonUtils.any2Map(response.data);
+      Map<String, dynamic> map = JsonUtils.anyToMap(response.data);
       if (map['error'] is int && map['error'] == 0) {
         response.data = map['data'];
         return handler.next(response);
@@ -19,7 +19,6 @@ class UnpackInterceptor extends Interceptor {
           ),
         );
       }
-
     }
     return handler.reject(DioException(
       requestOptions: response.requestOptions,

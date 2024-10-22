@@ -61,6 +61,7 @@ abstract class SUController extends GetxController with HttpCanceler {
   ///## 说明：函数内进行初始化操作与网络请求，网络请求异常已统一捕获处理，若无特殊需求不需要手动捕获处理。
   init();
 
+
   void showLoading() {
     viewState = ViewState.loading;
     update();

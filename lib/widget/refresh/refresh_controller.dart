@@ -5,8 +5,6 @@ import 'package:easy_refresh/easy_refresh.dart';
 ///# 戴刷新的控制器
 ///
 ///## 说明：页面中存在上拉加载，下拉刷新时，使用此控制器。
-///
-///@date：2024/9/6
 abstract class RefreshController extends SUController {
   Map<String, dynamic> pageBody = {'pageIndex': 1, 'pageSize': 10};
 

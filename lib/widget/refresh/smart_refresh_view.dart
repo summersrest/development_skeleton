@@ -1,15 +1,13 @@
 import 'package:development_skeleton/base/su_controller.dart';
-import 'package:development_skeleton/base/refresh/refresh_controller.dart';
 import 'package:development_skeleton/widget/multi_state_view.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'refresh_controller.dart';
 
 ///# 下拉刷新组件
 ///
 ///## 说明：下拉刷新，上拉加载更多组件，内部包裹可滑动组件。一般与[RefreshController]配合使用。
-///
-///@date：2024/9/6
 class SmartRefreshView<T extends RefreshController> extends StatelessWidget {
   final T controller;
   final Widget Function() contentBuilder;

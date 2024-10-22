@@ -101,7 +101,7 @@ class HttpHelper {
         onReceiveProgress: onReceiveProgress,
       );
       if (JsonUtils.isMap(response.data) && null != onMap) {
-        return onMap(JsonUtils.any2Map(response.data));
+        return onMap(JsonUtils.anyToMap(response.data));
       } else if (JsonUtils.isList(response.data) && null != onList) {
         return onList(JsonUtils.anyToList(response.data));
       }
@@ -137,7 +137,7 @@ class HttpHelper {
         onReceiveProgress: onReceiveProgress,
       );
       if (JsonUtils.isMap(response.data) && null != onMap) {
-        return onMap(JsonUtils.any2Map(response.data));
+        return onMap(JsonUtils.anyToMap(response.data));
       } else if (JsonUtils.isList(response.data) && null != onList) {
         return onList(JsonUtils.anyToList(response.data));
       }
@@ -199,17 +199,18 @@ class CommonDio extends DioMixin implements Dio {
 
     assert(() {
       if (isLog) {
-        interceptors.add(logInterceptor ?? LogInterceptor(
-          request: false,
-          requestHeader: false,
-          requestBody: true,
-          responseHeader: false,
-          responseBody: true,
-          error: true,
-          logPrint: (Object object) {
-            Log.longText(object, tag: 'HttpRequest');
-          },
-        ));
+        interceptors.add(logInterceptor ??
+            LogInterceptor(
+              request: false,
+              requestHeader: false,
+              requestBody: true,
+              responseHeader: false,
+              responseBody: true,
+              error: true,
+              logPrint: (Object object) {
+                Log.longText(object, tag: 'HttpRequest');
+              },
+            ));
       }
       return true;
     }());

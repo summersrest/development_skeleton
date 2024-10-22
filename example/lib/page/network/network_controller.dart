@@ -2,6 +2,8 @@ import 'package:development_skeleton/development_skeleton.dart';
 import 'package:example/config/http/http_instance.dart';
 import 'package:example/entity/article_entity.dart';
 import 'package:example/entity/user_info_entity.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:development_skeleton/development_skeleton.dart';
 
 ///# 网络请求
 ///
@@ -13,6 +15,9 @@ class NetworkController extends SUController {
   List<String> stringList = [];
   String? str = '';
 
+  GlobalKey<SUFormState> globalKey = GlobalKey();
+
+
   @override
   init() async {
     // await requestEntity();
@@ -21,6 +26,12 @@ class NetworkController extends SUController {
   }
 
   Future requestEntity() async {
+    List<String>? validateResult = globalKey.currentState?.validate();
+    if (null == validateResult) {
+      Map<String, dynamic>? res = globalKey.currentState?.value;
+    }
+
+
     entity = await httpUtils.post(
       url: '/login',
       body: {"username": "user_01", "password": "123456"},
