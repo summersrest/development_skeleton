@@ -28,3 +28,5 @@ export 'widget/divider_column.dart';
 export 'widget/su_map_key.dart';
 export 'widget/refresh/refresh_controller.dart';
 export 'widget/refresh/smart_refresh_view.dart';
+export 'widget/su_gesture_detector.dart';
+export 'widget/su_ink_well.dart';

@@ -7,8 +7,6 @@ import 'package:example/config/http/unpack_interceptor.dart';
 import 'package:example/config/routes.dart';
 import 'package:example/config/theme/theme_dark.dart';
 import 'config/theme/theme_green.dart';
-import 'config/translations/cn.dart';
-import 'config/translations/en.dart';
 import 'config/translations/translation.dart';
 
 void main() {

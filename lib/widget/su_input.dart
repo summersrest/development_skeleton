@@ -21,6 +21,7 @@ abstract class SUInput<T, C extends SUInputController<T>> extends SUWidget {
 
   const SUInput({
     super.key,
+    super.mapKey,
     this.initValue,
     this.onChange,
     this.validator,
@@ -29,10 +30,10 @@ abstract class SUInput<T, C extends SUInputController<T>> extends SUWidget {
 }
 
 abstract class SUInputState<T, C extends SUInputController<T>, W extends SUInput<T, C>> extends SUWidgetState<W> {
-  /// 创建控制器
+  /// 创建本地控制器
   C createController();
 
-  /// 本地控制器缓存
+  /// 本地控制器，组件未传入控制器时自动实例化。本地控制器跟随组件的回收自动回收。
   C? _localController;
 
   /// 控制器
@@ -150,7 +151,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
     }
   }
 
-  ///# [SUForm]组件[initValue]转为组件所需要的值
+  ///# 从[SUForm]组件的[initValue]中获取的数据，转为组件所需要的格式
   ///
   /// 组件的初始值可能来源于[SUForm]的[initValue]参数。但是从[initValue]取出来的数据格式，与[SUInput]组件所需要的数据格式
   /// 很可能并不相同。我们需要通过[anyToValue]函数，将取得的数据进行转换。然后再将结果赋给当前组件。
@@ -158,7 +159,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 例如组件需要的数据为[String]，可以这么做.
   ///
   ///  ```dart
-  ///  class XXController<String> extends SUInputController {
+  ///  class XXController extends SUInputController<String> {
   ///     anyToValue(dynamic initValue) {
   ///         value = null != initValue ? initValue.toString() : '';
   ///     }
@@ -173,7 +174,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 或者List<Map<String, dynamic>>，然后再放入表单Map中。
   ///
   ///  ```dart
-  ///  class XXController<T> extends SUInputController {
+  ///  class XXController extends SUInputController<T> {
   ///     Map<String, dynamic>? valueToForm() {
   ///         if (null == value) return null;
   ///         return value!.toJson();
@@ -185,7 +186,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 函数将输入的[String]格式的年龄，转换为[int]。
   ///
   ///  ```dart
-  ///  class XXController<String> extends SUInputController {
+  ///  class XXController extends SUInputController<String> {
   ///     int? valueToForm() {
   ///         if (null == value) return null;
   ///         return int.tryParse(value!) ?? 0;
@@ -200,7 +201,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 组件输入内容校验，返回为null则校验通过，返回不为null则为未通过信息。
   String? validate() {
     if (null != _validator) {
-      errorMessage = _validator!(_value);
+      errorMessage = _validator!(value);
       error = errorMessage != null;
       return errorMessage;
     }

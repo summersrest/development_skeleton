@@ -9,6 +9,7 @@ Map<String, String> en = {
   'netWork': 'Network request',
   'themeChange': 'Switch theme',
   'fileStore': 'File Manager',
+  'widget': 'Widget',
 };
 
 

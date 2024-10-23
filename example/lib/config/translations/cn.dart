@@ -9,4 +9,5 @@ Map<String, String> cn = {
   'netWork': '网络请求',
   'themeChange': '主题切换',
   'fileStore': '文件读写',
+  'widget': '组件',
 };

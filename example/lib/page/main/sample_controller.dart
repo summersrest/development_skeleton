@@ -52,7 +52,10 @@ class SampleController extends SUController {
           iconData: Icons.store_outlined,
           onTap: () => Get.toNamed(Routes.store),
         ),
+        MenuEntity(
+          name: 'widget'.tr,
+          iconData: Icons.widgets_outlined,
+          onTap: () => Get.toNamed(Routes.widgetSample),
+        ),
       ];
-
-
 }
