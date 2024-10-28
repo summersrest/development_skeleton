@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:development_skeleton/core/event_bus.dart';
 import 'package:development_skeleton/http/http_canceler.dart';
 import 'package:development_skeleton/http/http_helper_exception.dart';
-import 'package:development_skeleton/widget/show_snack_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +11,14 @@ import 'package:get/get.dart';
 abstract class SUController extends GetxController with HttpCanceler {
   ViewState viewState = ViewState.loading;
   StreamSubscription<EventMessage>? _subscription;
+  final Map<String, ViewState> _viewStateTemp = {};
+  ViewState _viewState = ViewState.loading;
 
   /// 消息接收函数
   late final ValueChanged<EventMessage>? _receiver = eventReceiver;
+
+  /// 获取组件状态
+  ViewState getViewState(String? id) => id == null ? _viewState : _viewStateTemp[id] ?? ViewState.loading;
 
   @override
   void onReady() async {
@@ -62,26 +65,32 @@ abstract class SUController extends GetxController with HttpCanceler {
   init();
 
 
-  void showLoading() {
-    viewState = ViewState.loading;
-    update();
+  void showLoading([String? id]) {
+    _updateViewState(ViewState.loading, id);
   }
 
-  void showContent() {
-    viewState = ViewState.content;
-    update();
+  void showContent([String? id]) {
+    _updateViewState(ViewState.content, id);
   }
 
-  void showEmpty() {
-    viewState = ViewState.empty;
-    update();
+  void showEmpty([String? id]) {
+    _updateViewState(ViewState.empty, id);
   }
 
-  void showError([String? msg]) {
-    viewState = ViewState.error;
-    update();
-    if (null != msg && msg.isNotEmpty) {
-      showSnackBarError(msg);
+  void showError([String? id]) {
+    _updateViewState(ViewState.error, id);
+  }
+
+  ///# 更新页面状态
+  void _updateViewState(ViewState viewState, [String? id]) {
+    if (null == id && _viewState != viewState) {
+      _viewState = viewState;
+      update();
+    } else if (null != id) {
+      if ((_viewStateTemp[id] ?? ViewState.loading) != viewState) {
+        _viewStateTemp[id] = viewState;
+        update([id]);
+      }
     }
   }
 
@@ -91,6 +100,7 @@ abstract class SUController extends GetxController with HttpCanceler {
   @override
   void onClose() {
     super.onClose();
+    _viewStateTemp.clear();
     _subscription?.cancel();
     //取消网络请求
     cancelByTag(runtimeType.toString());

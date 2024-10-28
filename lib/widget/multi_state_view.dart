@@ -5,17 +5,32 @@ import 'package:get/get.dart';
 
 ///# 多状态View
 ///
-///## 说明：多状态View
+/// 多状态View，与页面控制器配合使用，通过页面控制器，设置组件显示页面正常显示、页面加载、页面异常等状态。
 class MultiStateView<T extends SUController> extends StatelessWidget {
+  /// 组件id，页面中存在多个[MultiStateView]或者[SmartRefreshView]时，可以使用[id]对其进行区分。
+  final String? id;
+
+  /// 页面控制器
   final T controller;
+
+  /// 页面构造函数，请传入可滑动组件
   final Widget Function() contentBuilder;
+
+  /// 空页面状态构造函数
   final Widget Function()? emptyBuilder;
+
+  /// 错误页面状态构造函数
   final Widget Function()? errorBuilder;
+
+  /// 加载页面状态构造函数
   final Widget Function()? loadingBuilder;
+
+  /// GetBuilder Tag
   final String? tag;
 
   const MultiStateView({
     super.key,
+    this.id,
     required this.controller,
     required this.contentBuilder,
     this.emptyBuilder,
@@ -27,6 +42,7 @@ class MultiStateView<T extends SUController> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
+      id: id,
       init: controller,
       tag: tag,
       builder: (_) {

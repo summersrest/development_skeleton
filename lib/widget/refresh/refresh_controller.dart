@@ -2,11 +2,13 @@ import 'package:development_skeleton/base/su_controller.dart';
 import 'package:development_skeleton/http/http_helper_exception.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 
-///# 戴刷新的控制器
+///# 下拉刷新、上拉加载的控制器
 ///
-///## 说明：页面中存在上拉加载，下拉刷新时，使用此控制器。
+///## 说明：页面中存在上拉加载，下拉刷新时，使用此控制器。与[SmartRefreshView]组件配合使用。
 abstract class RefreshController extends SUController {
-  Map<String, dynamic> pageBody = {'pageIndex': 1, 'pageSize': 10};
+
+  /// 当前页数，上拉加载与下拉刷新后自动计算
+  int pageIndex = 1;
 
   final EasyRefreshController refreshCtrl = EasyRefreshController(
     controlFinishRefresh: true,
@@ -15,54 +17,56 @@ abstract class RefreshController extends SUController {
 
   ///# 下拉刷新复写函数
   ///
-  ///## 说明：函数内写下拉刷新的接口
+  ///## 说明：函数内写下拉刷新的接口（无需手动调用）
   ///
-  ///## 返回值：本次请求是否有数据返回
-  Future<bool> onRefresh();
+  ///## 返回值：本次网络请求返回的数组长度
+  Future<int> onRefresh();
 
   ///# 上拉加载更多复写函数
   ///
-  ///## 说明：函数内写上拉加载更多的接口
+  ///## 说明：函数内写上拉加载更多的接口（无需手动调用）
   ///
-  ///## 返回值：是否还有未加载的数据存在
-  Future<bool> onLoadMore() => Future(() => false);
+  ///## 返回值：本次网络请求返回的数组长度
+  Future<int> onLoadMore() async => 0;
 
-  ///# 下拉刷新
+  ///# 开始请求下拉刷新数据
   ///
-  ///## 说明：调用获取下拉刷新的数据
-  Future startRefresh() async {
-    pageBody['pageIndex'] = 1;
+  /// 调用获取下拉刷新的数据，如果[SmartRefreshView]组件设置了[id]，调用[startRefresh]函数时，也需要添加参数[id]。
+  /// 下拉[SmartRefreshView]组件时会自动调用，初始化时可主动调用。
+  Future startRefresh([String? id]) async {
+    pageIndex = 1;
     try {
-      if (await onRefresh()) {
-        showContent();
+      if (await onRefresh() > 0) {
+        showContent(id);
         refreshCtrl.resetFooter();
       } else {
-        showEmpty();
+        showEmpty(id);
       }
       refreshCtrl.finishRefresh(IndicatorResult.success);
     } on HttpHelperException catch(error) {
       //网络请求异常捕获处理
-      showError(error.message);
+      showError(id);
       refreshCtrl.finishRefresh(IndicatorResult.fail);
     }
   }
 
-  ///# 上拉加载
+  ///# 开始请求上拉加载更多数据
   ///
-  ///## 说明：调用获取上拉加载的数据
-  startLoadMore([dynamic param]) async {
-    pageBody['pageIndex']++;
+  /// 调用获取上拉加载更多的数据，如果[SmartRefreshView]组件设置了[id]，调用[startRefresh]函数时，也需要添加参数[id]。
+  /// 上拉[SmartRefreshView]组件时会自动调用。
+  startLoadMore([String? id]) async {
+    pageIndex++;
     try {
-      if (await onLoadMore()) {
+      if (await onLoadMore() > 0) {
         refreshCtrl.finishLoad(IndicatorResult.success);
       } else {
         refreshCtrl.finishLoad(IndicatorResult.noMore);
       }
-      update();
+      update(null != id ? [id] : null);
     } on HttpHelperException catch(_) {
       refreshCtrl.finishLoad(IndicatorResult.fail);
-      update();
-      pageBody['pageIndex']--;
+      update(null != id ? [id] : null);
+      pageIndex--;
     }
   }
 
