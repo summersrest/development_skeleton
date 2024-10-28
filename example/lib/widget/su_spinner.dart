@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:development_skeleton/development_skeleton.dart';
 import 'package:example/widget/common/common_widget_border.dart';
 import 'package:flutter/material.dart';

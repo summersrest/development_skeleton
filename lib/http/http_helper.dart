@@ -15,13 +15,10 @@ Map<String, HttpHelper> _httpHelpCache = {};
 
 class HttpHelper {
   /// dio实例
-  CommonDio? _dio;
+  Dio? _dio;
 
   /// dio配置
   final BaseOptions options;
-
-  /// 拦截器
-  final List<Interceptor>? interceptors;
 
   /// 日志打印拦截器
   final Interceptor? logInterceptor;
@@ -29,20 +26,47 @@ class HttpHelper {
   /// 是否显示日志
   final bool isLog;
 
-  /// 代理
-  final String? proxy;
-
   HttpHelper({
     required this.options,
-    this.interceptors,
+    List<Interceptor>? interceptors,
     this.logInterceptor,
     this.isLog = true,
-    this.proxy,
+    String? proxy,
   }) {
     options.responseType = ResponseType.plain;
-    _dio ??= CommonDio(options: options, isLog: isLog, proxy: proxy, logInterceptor: logInterceptor);
-    if (null != interceptors && interceptors!.isNotEmpty) {
-      _dio!.interceptors.addAll(interceptors!);
+    _dio ??= Dio(options);
+    // 设置代理
+    if (!kIsWeb && (proxy?.isNotEmpty ?? false)) {
+      _dio?.httpClientAdapter = IOHttpClientAdapter(
+        createHttpClient: () {
+          final client = HttpClient();
+          client.findProxy = (uri) {
+            return 'PROXY $proxy';
+          };
+          return client;
+        },
+      );
+    }
+    // 拦截器
+    if (null != interceptors && interceptors.isNotEmpty) {
+      _dio!.interceptors.addAll(interceptors);
+      assert(() {
+        if (isLog) {
+          _dio!.interceptors.add(logInterceptor ??
+              LogInterceptor(
+                request: false,
+                requestHeader: false,
+                requestBody: true,
+                responseHeader: false,
+                responseBody: true,
+                error: true,
+                logPrint: (Object object) {
+                  Log.longText(object, tag: 'HttpRequest');
+                },
+              ));
+        }
+        return true;
+      }());
     }
   }
 
@@ -76,6 +100,11 @@ class HttpHelper {
     return httpHelper;
   }
 
+  ///# 获取拦截器
+  ///
+  ///## 说明：获取拦截器
+  Interceptors get interceptors => _dio!.interceptors;
+
   ///# Post请求
   ///
   ///## 说明：Post请求
@@ -107,7 +136,7 @@ class HttpHelper {
       }
       return JsonUtils.anyToType<T>(response.data);
     } on DioException catch (e) {
-      _handlerError(e);
+      await _handlerError(e);
       return null;
     } catch (e) {
       rethrow;
@@ -143,7 +172,7 @@ class HttpHelper {
       }
       return JsonUtils.anyToType<T>(response.data);
     } on DioException catch (e) {
-      _handlerError(e);
+      await _handlerError(e);
       return null;
     } catch (e) {
       rethrow;
@@ -160,15 +189,15 @@ class HttpHelper {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      final Response response = await Dio(options).download(
+      final Response response = await _dio!.download(
         url,
         savePath,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on DioException catch (e) {
-      _handlerError(e);
+      await _handlerError(e);
       return null;
     } catch (e) {
       rethrow;
@@ -182,51 +211,5 @@ class HttpHelper {
       EasyLoading.dismiss();
     }
     throw HttpHelperException(e);
-  }
-}
-
-///# Http对象封装
-///
-///## 说明：添加代理，返回数据进行Decode与日志打印。
-class CommonDio extends DioMixin implements Dio {
-  CommonDio({
-    required BaseOptions options,
-    String? proxy,
-    required bool isLog,
-    Interceptor? logInterceptor,
-  }) : super() {
-    this.options = options;
-
-    assert(() {
-      if (isLog) {
-        interceptors.add(logInterceptor ??
-            LogInterceptor(
-              request: false,
-              requestHeader: false,
-              requestBody: true,
-              responseHeader: false,
-              responseBody: true,
-              error: true,
-              logPrint: (Object object) {
-                Log.longText(object, tag: 'HttpRequest');
-              },
-            ));
-      }
-      return true;
-    }());
-    //　代理
-    if (!kIsWeb && (proxy?.isNotEmpty ?? false)) {
-      httpClientAdapter = IOHttpClientAdapter(
-        createHttpClient: () {
-          final client = HttpClient();
-          client.findProxy = (uri) {
-            return 'PROXY $proxy';
-          };
-          return client;
-        },
-      );
-    } else {
-      httpClientAdapter = HttpClientAdapter();
-    }
   }
 }

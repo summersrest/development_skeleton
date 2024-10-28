@@ -81,7 +81,11 @@ Future _init(EnvConfig config) async {
 void _runApp(EnvConfig config) {
   final easyLoading = EasyLoading.init();
   //easyLoading禁止用户交互
-  EasyLoading.instance.userInteractions = false;
+  EasyLoading.instance
+    ..userInteractions = false
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..maskType = EasyLoadingMaskType.black
+    ..dismissOnTap = false;
   runApp(ScreenUtilInit(
     //设计图尺寸
     designSize: config.designSize,
