@@ -2,8 +2,6 @@ import 'package:development_skeleton/development_skeleton.dart';
 import 'package:example/config/http/http_instance.dart';
 import 'package:example/entity/article_entity.dart';
 import 'package:example/entity/user_info_entity.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:development_skeleton/development_skeleton.dart';
 
 ///# 网络请求
 ///
@@ -15,27 +13,17 @@ class NetworkController extends SUController {
   List<String> stringList = [];
   String? str = '';
 
-  GlobalKey<SUFormState> globalKey = GlobalKey();
-
-
   @override
   init() async {
-    // await requestEntity();
-    await Future.delayed(const Duration(hours: 100));
-    showContent();
+    await requestEntity();
   }
 
   Future requestEntity() async {
-    List<String>? validateResult = globalKey.currentState?.validate();
-    if (null == validateResult) {
-      Map<String, dynamic>? res = globalKey.currentState?.value;
-    }
-
-
     entity = await httpUtils.post(
       url: '/login',
-      body: {"username": "user_01", "password": "123456"},
-      cancelToken: getCancelToken(),
+      httpParams: httpParams(
+        body: {"username": "user_01", "password": "123456"},
+      ),
       onMap: (json) => UserInfoEntity.fromJson(json),
     );
     if (null != entity) {
@@ -71,8 +59,9 @@ class NetworkController extends SUController {
   Future requestEntityList() async {
     List<ArticleEntity>? result = await httpUtils.get(
         url: '/list',
-        param: {'userId': 1},
-        cancelToken: getCancelToken(),
+        httpParams: httpParams(
+          param: {'userId': 1},
+        ),
         onList: (list) => list.buildEntity((item) => ArticleEntity.fromJson(item)));
     if (result.isNotBlank) {
       entityList.clear();
@@ -86,8 +75,9 @@ class NetworkController extends SUController {
   Future requestStringList() async {
     List<String>? result = await httpUtils.get(
       url: '/test',
-      param: {'type': 'list_string'},
-      cancelToken: getCancelToken(),
+      httpParams: httpParams(
+        param: {'type': 'list_string'},
+      ),
     );
     if (result.isNotBlank) {
       stringList.clear();
@@ -101,8 +91,10 @@ class NetworkController extends SUController {
   Future requestString() async {
     str = await httpUtils.get(
       url: '/test',
-      param: {'type': 'string'},
-      cancelToken: getCancelToken(),
+      httpParams: HttpParams(
+        param: {'type': 'string'},
+        cancelToken: getCancelToken(),
+      ),
     );
     if (null != str) {
       showContent();
@@ -114,8 +106,9 @@ class NetworkController extends SUController {
   Future requestNoResult() async {
     await httpUtils.get(
       url: '/test',
-      param: {'type': 'null_result'},
-      cancelToken: getCancelToken(),
+      httpParams: httpParams(
+        param: {'type': 'null_result'},
+      ),
     );
     showContent();
   }

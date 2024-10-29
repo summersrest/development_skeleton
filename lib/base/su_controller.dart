@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:development_skeleton/core/event_bus.dart';
-import 'package:development_skeleton/http/http_canceler.dart';
-import 'package:development_skeleton/http/http_helper_exception.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:development_skeleton/development_skeleton.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-///# Get Controller超类
+///# 页面Controller超类
 ///
-///## 说明：Get Controller超类
+///## 说明：页面Controller超类
 abstract class SUController extends GetxController with HttpCanceler {
   ViewState viewState = ViewState.loading;
   StreamSubscription<EventMessage>? _subscription;
@@ -39,8 +39,6 @@ abstract class SUController extends GetxController with HttpCanceler {
   ///# 消息接收复写函数
   ///
   ///## 说明：
-  ///
-  ///@date：2024/10/18
   ValueChanged<EventMessage>? get eventReceiver => null;
 
   ///# 网络请求
@@ -64,29 +62,62 @@ abstract class SUController extends GetxController with HttpCanceler {
   ///## 说明：函数内进行初始化操作与网络请求，网络请求异常已统一捕获处理，若无特殊需求不需要手动捕获处理。
   init();
 
-
+  ///# 页面显示加载状态
+  ///
+  /// 若需要指定组件，传入[id]参数
   void showLoading([String? id]) {
     _updateViewState(ViewState.loading, id);
   }
 
+  ///# 显示页面内容
+  ///
+  /// 若需要指定组件，传入[id]参数
   void showContent([String? id]) {
     _updateViewState(ViewState.content, id);
   }
 
+  ///# 显示空页面状态
+  ///
+  /// 若需要指定组件，传入[id]参数
   void showEmpty([String? id]) {
     _updateViewState(ViewState.empty, id);
   }
 
+  ///# 显示异常页面状态
+  ///
+  /// 若需要指定组件，传入[id]参数
   void showError([String? id]) {
     _updateViewState(ViewState.error, id);
   }
 
+  ///# 生成Http请求参数
+  ///
+  /// 生成Http请求参数的实例，省去手动添加[cancelToken]的麻烦。
+  HttpParams httpParams({
+    Map<String, dynamic>? param,
+    Object? body,
+    CancelToken? cancelToken,
+    Options? options,
+    String? savePath,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) =>
+      HttpParams(
+        param: param,
+        body: body,
+        cancelToken: cancelToken ?? getCancelToken(),
+        options: options,
+        savePath: savePath,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+
   ///# 更新页面状态
   void _updateViewState(ViewState viewState, [String? id]) {
-    if (null == id && _viewState != viewState) {
+    if (null == id) {
       _viewState = viewState;
       update();
-    } else if (null != id) {
+    } else  {
       if ((_viewStateTemp[id] ?? ViewState.loading) != viewState) {
         _viewStateTemp[id] = viewState;
         update([id]);

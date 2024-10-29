@@ -6,6 +6,7 @@ export 'dialog/dialog_utils.dart';
 export 'http/http_canceler.dart';
 export 'http/http_helper.dart';
 export 'http/http_helper_exception.dart';
+export 'http/http_params.dart';
 export 'log/log.dart';
 export 'theme/app_theme.dart';
 export 'utils/date_util.dart';

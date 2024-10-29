@@ -8,9 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:universal_io/io.dart';
 
-///# 网络请求封装类
+import 'http_params.dart';
+
+///# 网络请求实例
 ///
-///## 说明：网络请求封装类
+///## 说明：网络请求实例
 Map<String, HttpHelper> _httpHelpCache = {};
 
 class HttpHelper {
@@ -110,24 +112,19 @@ class HttpHelper {
   ///## 说明：Post请求
   Future<T?> post<T>({
     required String url,
-    Map<String, dynamic>? param,
-    Object? body,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+    required HttpParams httpParams,
     T Function(Map<String, dynamic> map)? onMap,
     T Function(List<Map<String, dynamic>> list)? onList,
   }) async {
     try {
       final Response response = await _dio!.post(
         url,
-        data: body,
-        queryParameters: param,
-        options: options,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
+        data: httpParams.body,
+        queryParameters: httpParams.param,
+        options: httpParams.options,
+        cancelToken: httpParams.cancelToken,
+        onSendProgress: httpParams.onSendProgress,
+        onReceiveProgress: httpParams.onReceiveProgress,
       );
       if (JsonUtils.isMap(response.data) && null != onMap) {
         return onMap(JsonUtils.anyToMap(response.data));
@@ -148,22 +145,18 @@ class HttpHelper {
   ///## 说明：Get请求
   Future<T?> get<T>({
     required String url,
-    Map<String, dynamic>? param,
-    Object? body,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onReceiveProgress,
+    required HttpParams httpParams,
     T Function(Map<String, dynamic> map)? onMap,
     T Function(List<dynamic> list)? onList,
   }) async {
     try {
       final Response response = await _dio!.get(
         url,
-        data: body,
-        queryParameters: param,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
+        data: httpParams.body,
+        queryParameters: httpParams.param,
+        options: httpParams.options,
+        cancelToken: httpParams.cancelToken,
+        onReceiveProgress: httpParams.onReceiveProgress,
       );
       if (JsonUtils.isMap(response.data) && null != onMap) {
         return onMap(JsonUtils.anyToMap(response.data));
