@@ -1,4 +1,4 @@
-import 'package:development_skeleton/base/su_controller.dart';
+import 'package:development_skeleton/base/s_controller.dart';
 import 'package:development_skeleton/widget/shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 ///# 多状态View
 ///
 /// 多状态View，与页面控制器配合使用，通过页面控制器，设置组件显示页面正常显示、页面加载、页面异常等状态。
-class MultiStateView<T extends SUController> extends StatelessWidget {
+class MultiStateView<T extends SController> extends StatelessWidget {
   /// 组件id，页面中存在多个[MultiStateView]或者[SmartRefreshView]时，可以使用[id]对其进行区分。
   final String? id;
 

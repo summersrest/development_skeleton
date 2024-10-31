@@ -7,7 +7,7 @@ import 'common/common_listenable_builder.dart';
 ///# 下拉列表
 ///
 /// 自定义Input类组件Demo
-class SUSpinner extends SUInput<SUSpinnerItem, SUSpinnerController> {
+class SUSpinner extends SInput<SUSpinnerItem, SUSpinnerController> {
   /// 备选数据源
   final List<SUSpinnerItem>? source;
 
@@ -26,10 +26,10 @@ class SUSpinner extends SUInput<SUSpinnerItem, SUSpinnerController> {
   });
 
   @override
-  SUInputState<SUSpinnerItem, SUSpinnerController, SUSpinner> createState() => _SUSpinnerState();
+  SInputState<SUSpinnerItem, SUSpinnerController, SUSpinner> createState() => _SUSpinnerState();
 }
 
-class _SUSpinnerState extends SUInputState<SUSpinnerItem, SUSpinnerController, SUSpinner> {
+class _SUSpinnerState extends SInputState<SUSpinnerItem, SUSpinnerController, SUSpinner> {
   double _rotate = 0.0;
 
   @override
@@ -43,7 +43,7 @@ class _SUSpinnerState extends SUInputState<SUSpinnerItem, SUSpinnerController, S
         return CommonWidgetBorder(
           isError: controller.error,
           alignment: Alignment.centerLeft,
-          child: SUInkWell(
+          child: SInkWell(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             onTap: () {
@@ -109,7 +109,7 @@ class _SUSpinnerState extends SUInputState<SUSpinnerItem, SUSpinnerController, S
 ///# 下拉列表组件控制器
 ///
 /// 自定义Input类组件控制器Demo
-class SUSpinnerController extends SUInputController<SUSpinnerItem> {
+class SUSpinnerController extends SInputController<SUSpinnerItem> {
   /// 备选数据源
   List<SUSpinnerItem> source;
 
@@ -117,7 +117,7 @@ class SUSpinnerController extends SUInputController<SUSpinnerItem> {
     this.source = const [],
   });
 
-  /// 从[SUForm]组件的[initValue]中获取的数据，转为组件所需要的格式
+  /// 从[SForm]组件的[initValue]中获取的数据，转为组件所需要的格式
   @override
   void anyToValue(initValue) {
     if (initValue is SUSpinnerItem) {
@@ -281,7 +281,7 @@ class _SpinnerWindowState extends State<_SpinnerWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return SUGestureDetector(
+    return SGestureDetector(
       onTap: () {
         if (mounted) {
           setState(() {
@@ -323,7 +323,7 @@ class _SpinnerWindowState extends State<_SpinnerWindow> {
                           return Material(
                             color: Colors.transparent,
                             elevation: 0,
-                            child: SUGestureDetector(
+                            child: SGestureDetector(
                               onTap: () async {
                                 if (mounted) {
                                   setState(() {

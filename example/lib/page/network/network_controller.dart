@@ -6,7 +6,7 @@ import 'package:example/entity/user_info_entity.dart';
 ///# 网络请求
 ///
 ///@date 2024/9/10
-class NetworkController extends SUController {
+class NetworkController extends SController {
   ResultType resultType = ResultType.entity;
   UserInfoEntity? entity;
   List<ArticleEntity> entityList = [];

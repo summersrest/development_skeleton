@@ -7,7 +7,7 @@ import 'theme_controller.dart';
 ///# 主题切换
 ///
 ///@date 2024/9/10
-class ThemePage extends SUPage<ThemeController> {
+class ThemePage extends SPage<ThemeController> {
   ThemePage({super.key});
 
   @override

@@ -6,8 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 ///# 组件Demo
 ///
 ///@date 2024/10/23
-class WidgetSampleController extends SUController {
-  GlobalKey<SUFormState> globalKey = GlobalKey();
+class WidgetSampleController extends SController {
+  GlobalKey<SFormState> globalKey = GlobalKey();
   List<SUSpinnerItem> articles = [
     SUSpinnerItem(id: '0', label: '坟'),
     SUSpinnerItem(id: '1', label: '华盖集'),

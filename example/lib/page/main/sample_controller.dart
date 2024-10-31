@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 ///# Demo首页
 ///
 ///@date 2024/9/10
-class SampleController extends SUController {
+class SampleController extends SController {
   ///直接声明 GetX无法翻译，需要在页面刷新的时候重新获取。
   // final List<MenuEntity> menus = [
   //   MenuEntity(

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 ///# GestureDetector
 ///
 /// 防重复点击
-class SUGestureDetector extends GestureDetector {
-  SUGestureDetector({
+class SGestureDetector extends GestureDetector {
+  SGestureDetector({
     super.key,
     VoidCallback? onTap,
     // 是否防双击

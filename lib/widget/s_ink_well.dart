@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ///# InkWell
 ///
 /// 防重复点击
-class SUInkWell extends StatelessWidget {
+class SInkWell extends StatelessWidget {
   /// 是否防双击
   final bool isPreventDoubleClick;
 
@@ -22,7 +22,7 @@ class SUInkWell extends StatelessWidget {
   final GestureTapCallback? onLongPress;
   final Widget child;
 
-  const SUInkWell({
+  const SInkWell({
     super.key,
     this.isPreventDoubleClick = true,
     this.onTap,

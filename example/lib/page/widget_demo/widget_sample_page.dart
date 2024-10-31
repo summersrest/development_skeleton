@@ -7,7 +7,7 @@ import 'widget_sample_controller.dart';
 ///# 组件Demo
 ///
 ///@date 2024/10/23
-class WidgetSamplePage extends SUPage<WidgetSampleController> {
+class WidgetSamplePage extends SPage<WidgetSampleController> {
   WidgetSamplePage({super.key});
 
   @override
@@ -32,7 +32,7 @@ class WidgetSamplePage extends SUPage<WidgetSampleController> {
       body: MultiStateView(
         controller: ctrl,
         contentBuilder: () {
-          return SUForm(
+          return SForm(
             key: ctrl.globalKey,
             initValue: ctrl.res,
             child: SingleChildScrollView(
@@ -55,7 +55,7 @@ class WidgetSamplePage extends SUPage<WidgetSampleController> {
                       validator: (text) => text.isNotBlank ? null : '请输入密码',
                     ),
                   ),
-                  SUMapKey(
+                  SMapKey(
                     mapKey: 'userInfo',
                     child: Column(
                       children: [

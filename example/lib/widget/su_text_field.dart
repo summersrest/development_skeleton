@@ -7,7 +7,7 @@ import 'common/common_listenable_builder.dart';
 ///# 输入框
 ///
 /// 自定义Input类组件Demo
-class SUTextField extends SUInput<String, SUTextFieldController> {
+class SUTextField extends SInput<String, SUTextFieldController> {
   /// 焦点监听
   final ValueChanged<bool>? onFocusChange;
 
@@ -37,10 +37,10 @@ class SUTextField extends SUInput<String, SUTextFieldController> {
   });
 
   @override
-  SUInputState<String, SUTextFieldController, SUTextField> createState() => _SUTextFieldState();
+  SInputState<String, SUTextFieldController, SUTextField> createState() => _SUTextFieldState();
 }
 
-class _SUTextFieldState extends SUInputState<String, SUTextFieldController, SUTextField> {
+class _SUTextFieldState extends SInputState<String, SUTextFieldController, SUTextField> {
   /// 键盘类型
   TextInputType? _keyboardType;
 
@@ -154,7 +154,7 @@ class _SUTextFieldState extends SUInputState<String, SUTextFieldController, SUTe
 ///# 控制器
 ///
 /// 自定义Input组件控制器Demo
-class SUTextFieldController extends SUInputController<String> {
+class SUTextFieldController extends SInputController<String> {
   TextEditingController? _editController;
   FocusNode? _focusNode;
 
@@ -182,7 +182,7 @@ class SUTextFieldController extends SUInputController<String> {
 
   TextEditingController? get textEditingController => _editController;
 
-  /// [SUForm]组件[initValue]转为组件所需要的值
+  /// [SForm]组件[initValue]转为组件所需要的值
   @override
   void anyToValue(initValue) {
     value = null != initValue ? initValue.toString() : '';

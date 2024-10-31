@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 ///# 页面Controller超类
 ///
 ///## 说明：页面Controller超类
-abstract class SUController extends GetxController with HttpCanceler {
+abstract class SController extends GetxController with HttpCanceler {
   ViewState viewState = ViewState.loading;
   StreamSubscription<EventMessage>? _subscription;
   final Map<String, ViewState> _viewStateTemp = {};

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'su_controller.dart';
+import 's_controller.dart';
 
 ///# Page超类
 ///
 ///## 说明：如果page为StatelessWidget，直接继承此类。
 ///        如果需要使用StatefulWidget，可以将StatefulWidget作为子组件使用。
-abstract class SUPage<T extends SUController> extends StatelessWidget {
-  SUPage({super.key});
+abstract class SPage<T extends SController> extends StatelessWidget {
+  SPage({super.key});
 
   /// Tag
   late final String? tag = initTag();

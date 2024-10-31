@@ -6,7 +6,7 @@ import 'translate_controller.dart';
 ///# 国际化
 ///
 ///@date 2024/9/14
-class TranslatePage extends SUPage<TranslateController> {
+class TranslatePage extends SPage<TranslateController> {
   TranslatePage({super.key});
 
   @override

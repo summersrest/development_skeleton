@@ -1,12 +1,12 @@
 import 'package:development_skeleton/utils/json_utils.dart';
-import 'package:development_skeleton/widget/su_widget.dart';
+import 'package:development_skeleton/widget/s_widget.dart';
 import 'package:development_skeleton/utils/extension.dart';
 import 'package:flutter/material.dart';
 
 ///# 输入类组件超类
 ///
-/// 组件可以通过控制器进行输入校验。也可以与[SUForm]组件配合，统一校验。
-abstract class SUInput<T, C extends SUInputController<T>> extends SUWidget {
+/// 组件可以通过控制器进行输入校验。也可以与[SForm]组件配合，统一校验。
+abstract class SInput<T, C extends SInputController<T>> extends SWidget {
   /// 初始化值
   final T? initValue;
 
@@ -19,7 +19,7 @@ abstract class SUInput<T, C extends SUInputController<T>> extends SUWidget {
   /// 控制器
   final C? controller;
 
-  const SUInput({
+  const SInput({
     super.key,
     super.mapKey,
     this.initValue,
@@ -29,7 +29,7 @@ abstract class SUInput<T, C extends SUInputController<T>> extends SUWidget {
   });
 }
 
-abstract class SUInputState<T, C extends SUInputController<T>, W extends SUInput<T, C>> extends SUWidgetState<W> {
+abstract class SInputState<T, C extends SInputController<T>, W extends SInput<T, C>> extends SWidgetState<W> {
   /// 创建本地控制器
   C createController();
 
@@ -53,7 +53,7 @@ abstract class SUInputState<T, C extends SUInputController<T>, W extends SUInput
     // 初始化赋值
     controller.anyToValue(widget.initValue);
     // Form组件赋值
-    SUFormState? formState = SUForm.maybeOf(context);
+    SFormState? formState = SForm.maybeOf(context);
     if (null != formState) {
       formState.register(this);
       // 从Form组件中获取初始值.
@@ -98,7 +98,7 @@ abstract class SUInputState<T, C extends SUInputController<T>, W extends SUInput
 
   @override
   void deactivate() {
-    SUForm.maybeOf(context)?.unregister(this);
+    SForm.maybeOf(context)?.unregister(this);
     super.deactivate();
   }
 
@@ -111,7 +111,7 @@ abstract class SUInputState<T, C extends SUInputController<T>, W extends SUInput
 ///# 控制器
 ///
 /// 输入类组件控制器
-abstract class SUInputController<T> extends ChangeNotifier {
+abstract class SInputController<T> extends ChangeNotifier {
   /// 组件值
   T? _value;
 
@@ -151,15 +151,15 @@ abstract class SUInputController<T> extends ChangeNotifier {
     }
   }
 
-  ///# 从[SUForm]组件的[initValue]中获取的数据，转为组件所需要的格式
+  ///# 从[SForm]组件的[initValue]中获取的数据，转为组件所需要的格式
   ///
-  /// 组件的初始值可能来源于[SUForm]的[initValue]参数。但是从[initValue]取出来的数据格式，与[SUInput]组件所需要的数据格式
+  /// 组件的初始值可能来源于[SForm]的[initValue]参数。但是从[initValue]取出来的数据格式，与[SInput]组件所需要的数据格式
   /// 很可能并不相同。我们需要通过[anyToValue]函数，将取得的数据进行转换。然后再将结果赋给当前组件。
   ///
   /// 例如组件需要的数据为[String]，可以这么做.
   ///
   ///  ```dart
-  ///  class XXController extends SUInputController<String> {
+  ///  class XXController extends SInputController<String> {
   ///     anyToValue(dynamic initValue) {
   ///         value = null != initValue ? initValue.toString() : '';
   ///     }
@@ -174,7 +174,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 或者List<Map<String, dynamic>>，然后再放入表单Map中。
   ///
   ///  ```dart
-  ///  class XXController extends SUInputController<T> {
+  ///  class XXController extends SInputController<T> {
   ///     Map<String, dynamic>? valueToForm() {
   ///         if (null == value) return null;
   ///         return value!.toJson();
@@ -186,7 +186,7 @@ abstract class SUInputController<T> extends ChangeNotifier {
   /// 函数将输入的[String]格式的年龄，转换为[int]。
   ///
   ///  ```dart
-  ///  class XXController extends SUInputController<String> {
+  ///  class XXController extends SInputController<String> {
   ///     int? valueToForm() {
   ///         if (null == value) return null;
   ///         return int.tryParse(value!) ?? 0;
@@ -211,18 +211,18 @@ abstract class SUInputController<T> extends ChangeNotifier {
 
 ///# Form表单组件
 ///
-/// 可以对其内部的[SUInput]组件进行统一校验，同样可以获取内部[SUInput]组件的输入结果，返回一个表单Map。
+/// 可以对其内部的[SInput]组件进行统一校验，同样可以获取内部[SInput]组件的输入结果，返回一个表单Map。
 /// ```dart
 /// /// 声明GlobalKey
-/// GlobalKey<SUFormState> globalKey = GlobalKey();
+/// GlobalKey<SFormState> globalKey = GlobalKey();
 ///
 /// /// 组件
-/// SUForm(
+/// SForm(
 ///   key: globalKey,
 ///   child: Column(
 ///     children: [
 ///       XxxInputWidget(mapKey: 'userName'),
-///       SUMapKey(
+///       SMapKey(
 ///         mapKey: 'userInfo',
 ///         child: Column(
 ///           children: [
@@ -249,20 +249,20 @@ abstract class SUInputController<T> extends ChangeNotifier {
 ///   Map<String, dynamic>? res = globalKey.currentState?.value;
 /// }
 /// ```
-class SUForm extends StatefulWidget {
+class SForm extends StatefulWidget {
   /// 子组件
   final Widget child;
 
   /// 子组件初始化内容
   final Map<String, dynamic>? initValue;
 
-  const SUForm({
+  const SForm({
     super.key,
     required this.child,
     this.initValue,
   });
 
-  static SUFormState? maybeOf(BuildContext context) {
+  static SFormState? maybeOf(BuildContext context) {
     if (context.mounted) {
       return context.findAncestorStateOfType();
     }
@@ -270,17 +270,17 @@ class SUForm extends StatefulWidget {
   }
 
   @override
-  State<SUForm> createState() => SUFormState();
+  State<SForm> createState() => SFormState();
 }
 
-class SUFormState extends State<SUForm> {
-  final Set<SUInputState> _fields = <SUInputState>{};
+class SFormState extends State<SForm> {
+  final Set<SInputState> _fields = <SInputState>{};
 
-  void register(SUInputState field) {
+  void register(SInputState field) {
     _fields.add(field);
   }
 
-  void unregister(SUInputState field) {
+  void unregister(SInputState field) {
     _fields.remove(field);
   }
 
@@ -294,7 +294,7 @@ class SUFormState extends State<SUForm> {
   /// 返回值：返回为null则校验通过，返回不为null，则为校验未通过的异常信息列表。
   List<String>? validate() {
     List<String> results = [];
-    for (final SUInputState field in _fields) {
+    for (final SInputState field in _fields) {
       String? result = field.controller.validate();
       if (null != result) {
         results.add(result);
@@ -309,11 +309,11 @@ class SUFormState extends State<SUForm> {
   /// 例如组件树为：
   ///
   /// ```dart
-  /// SUForm(
+  /// SForm(
   ///   child: Column(
   ///     children: [
   ///       XxxInputWidget(mapKey: 'userName'),
-  ///       SUMapKey(
+  ///       SMapKey(
   ///         mapKey: 'userInfo',
   ///         child: Column(
   ///           children: [
@@ -340,7 +340,7 @@ class SUFormState extends State<SUForm> {
   /// 返回值：返回为null则校验通过，返回不为null，则为校验未通过的异常信息列表。
   Map<String, dynamic>? get value {
     Map<String, dynamic> originMap = <String, dynamic>{};
-    for (final SUInputState field in _fields) {
+    for (final SInputState field in _fields) {
       if (field.completeMapKey.isNotBlank) {
         originMap[field.completeMapKey!] = field.controller.valueToForm();
       }

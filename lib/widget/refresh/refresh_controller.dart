@@ -1,11 +1,11 @@
-import 'package:development_skeleton/base/su_controller.dart';
+import 'package:development_skeleton/base/s_controller.dart';
 import 'package:development_skeleton/http/http_helper_exception.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 
 ///# 下拉刷新、上拉加载的控制器
 ///
 ///## 说明：页面中存在上拉加载，下拉刷新时，使用此控制器。与[SmartRefreshView]组件配合使用。
-abstract class RefreshController extends SUController {
+abstract class RefreshController extends SController {
 
   /// 当前页数，上拉加载与下拉刷新后自动计算
   int pageIndex = 1;

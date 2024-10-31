@@ -8,7 +8,7 @@ import 'sample_controller.dart';
 ///# Demo首页
 ///
 ///@date 2024/9/10
-class SamplePage extends SUPage<SampleController> {
+class SamplePage extends SPage<SampleController> {
   SamplePage({super.key});
 
   @override
