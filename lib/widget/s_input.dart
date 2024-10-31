@@ -19,6 +19,12 @@ abstract class SInput<T, C extends SInputController<T>> extends SWidget {
   /// 控制器
   final C? controller;
 
+  /// 组件是否异常
+  final bool? error;
+
+  /// 组件是否可用
+  final bool? enable;
+
   const SInput({
     super.key,
     super.mapKey,
@@ -26,6 +32,8 @@ abstract class SInput<T, C extends SInputController<T>> extends SWidget {
     this.onChange,
     this.validator,
     this.controller,
+    this.error,
+    this.enable,
   });
 }
 
@@ -50,8 +58,9 @@ abstract class SInputState<T, C extends SInputController<T>, W extends SInput<T,
   @override
   void initState() {
     super.initState();
-    // 初始化赋值
-    controller.anyToValue(widget.initValue);
+    assert (widget.controller == null || widget.enable == null);
+    assert (widget.controller == null || widget.error == null);
+    assert (widget.controller == null || widget.initValue == null);
     // Form组件赋值
     SFormState? formState = SForm.maybeOf(context);
     if (null != formState) {
@@ -93,6 +102,15 @@ abstract class SInputState<T, C extends SInputController<T>, W extends SInput<T,
     _localController?.dispose();
     _localController = null;
     _localController = createController();
+    if (null != widget.enable) {
+      _localController?.enable = widget.enable!;
+    }
+    if (null != widget.error) {
+      _localController?.error = widget.error!;
+    }
+    if (null != widget.initValue) {
+      _localController?.value = widget.initValue;
+    }
     return _localController!;
   }
 
@@ -123,6 +141,11 @@ abstract class SInputController<T> extends ChangeNotifier {
 
   bool get error => _error ?? false;
 
+  /// 组件状态是否可用
+  bool? _enable;
+
+  bool get enable => _enable ?? true;
+
   /// 组件异常信息
   String? errorMessage;
 
@@ -131,6 +154,16 @@ abstract class SInputController<T> extends ChangeNotifier {
   /// 设置组件状态是否异常
   set error(bool isError) {
     _error = isError;
+    if (hasListeners) {
+      notifyListeners();
+    }
+  }
+
+  ///# 设置组件状态是否可用
+  ///
+  /// 设置组件状态是否可用
+  set enable(bool enable) {
+    _enable = enable;
     if (hasListeners) {
       notifyListeners();
     }
