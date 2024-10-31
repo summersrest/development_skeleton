@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 ///
 ///## 说明：页面Controller超类
 abstract class SController extends GetxController with HttpCanceler {
-  ViewState viewState = ViewState.loading;
   StreamSubscription<EventMessage>? _subscription;
   final Map<String, ViewState> _viewStateTemp = {};
   ViewState _viewState = ViewState.loading;
@@ -117,7 +116,7 @@ abstract class SController extends GetxController with HttpCanceler {
     if (null == id) {
       _viewState = viewState;
       update();
-    } else  {
+    } else {
       if ((_viewStateTemp[id] ?? ViewState.loading) != viewState) {
         _viewStateTemp[id] = viewState;
         update([id]);

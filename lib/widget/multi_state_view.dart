@@ -46,7 +46,7 @@ class MultiStateView<T extends SController> extends StatelessWidget {
       init: controller,
       tag: tag,
       builder: (_) {
-        switch (controller.viewState) {
+        switch (controller.getViewState(id)) {
           case ViewState.loading:
             return null != loadingBuilder ? loadingBuilder!() : const LoadingView();
           case ViewState.content:

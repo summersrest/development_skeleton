@@ -60,7 +60,7 @@ class SmartRefreshView<T extends RefreshController> extends StatelessWidget {
         tag: tag,
         init: controller,
         builder: (_) {
-          switch (controller.viewState) {
+          switch (controller.getViewState(id)) {
             case ViewState.loading:
               return CustomScrollView(
                 slivers: [

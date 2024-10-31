@@ -32,6 +32,17 @@ class WidgetSamplePage extends SPage<WidgetSampleController> {
       body: MultiStateView(
         controller: ctrl,
         contentBuilder: () {
+          return ListView.builder(
+            itemCount: 50,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SUTextField(
+
+                ),
+              );
+            },
+          );
           return SForm(
             key: ctrl.globalKey,
             initValue: ctrl.res,
